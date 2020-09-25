@@ -1,0 +1,28 @@
+{
+  "name": "react-page-design",
+  "version": "1.0.0",
+  "description": "react visualization components page degisn project",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently --kill-others \"npm run frontend\"",
+    "frontend": "cd frontend && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ye-maxime/react-page-design.git"
+  },
+  "keywords": [
+    "react",
+    "page",
+    "design"
+  ],
+  "author": "yezhengmao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ye-maxime/react-page-design/issues"
+  },
+  "homepage": "https://github.com/Ye-maxime/react-page-design#readme",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
