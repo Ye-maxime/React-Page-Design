@@ -6,7 +6,7 @@ const app = new Koa();
 
 // routes 参考https://tmk.im/post/ts-koa/
 app.use(async (ctx) => {
-    ctx.body = 'Hello, world!';
+  ctx.body = 'Hello, world!';
 });
 
 // router.get('/*', async (ctx) => {
