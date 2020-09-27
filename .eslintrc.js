@@ -17,5 +17,6 @@ module.exports = {
     '@typescript-eslint/indent': [2, 2],
     'no-use-before-define': 0,
     'import/extensions': 0,
+    '@typescript-eslint/no-var-requires': 0,
   },
 };

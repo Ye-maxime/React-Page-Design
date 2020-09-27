@@ -4,7 +4,8 @@
   "description": "react visualization components page degisn project",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run frontend\"",
+    "start": "concurrently --kill-others \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
     "frontend": "cd frontend && npm start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
