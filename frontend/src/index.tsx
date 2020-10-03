@@ -3,11 +3,11 @@ import * as ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { rootReducer } from './store/index';
-import Hello from './components/Hello';
+import Editor from './pages/Editor';
 
 const store = createStore(rootReducer);
 
 ReactDOM.render((
   <Provider store={store}>
-    <Hello compiler="TypeScript" framework="React" />
+    <Editor />
   </Provider>), document.getElementById('root'));

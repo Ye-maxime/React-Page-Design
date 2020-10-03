@@ -2,6 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -26,6 +27,15 @@ module.exports = {
 
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
+
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+        ],
+      },
     ],
   },
 
@@ -49,6 +59,7 @@ module.exports = {
       // chunksSortMode: 'dependency',
     }),
     new CleanWebpackPlugin(), // 每次打包前清空dist目录
+    new MiniCssExtractPlugin(),
   ],
   devServer: { // 本地开发环境（webpack-dev-server）对应于frontend/package.json  start命令行
     // contentBase: path.join(__dirname, '/dist'),
