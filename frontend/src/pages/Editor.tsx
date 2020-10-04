@@ -4,6 +4,8 @@ import {
   IProject, IPage, EditorActionTypes,
 } from '../store/editor/types';
 import ComponentLibs from '../components/ComponentLibs';
+import AttributesPanel from '../components/AttributesPanel';
+import MainPanel from '../components/MainPanel';
 
 interface ISideBarMenus {
   label: string;
@@ -34,17 +36,13 @@ type Props = IStateProps & State;
 const Editor : React.FunctionComponent = () => (
   <div className="page-editor editor-wrapper">
     {/* 左侧导航 */}
-    <div className="editor-side-bar border-R">
-      <ComponentLibs />
-    </div>
+    <ComponentLibs />
 
     {/* 页面编辑区域 */}
-    <div className="editor-main">
-      <div className="control-bar-wrapper" />
-    </div>
+    <MainPanel />
 
     {/* 属性编辑区域 */}
-    <div className="el-attr-edit-wrapper scrollbar-wrapper" />
+    <AttributesPanel />
   </div>
 );
 

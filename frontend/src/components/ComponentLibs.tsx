@@ -1,8 +1,7 @@
 // 主页面左边栏组件库
 // https://github.com/huangwei9527/quark-h5/blob/master/client/pages/editor/components/component-libs/Index.vue
 import * as React from 'react';
-import RdpComponent from './RdpComponent';
-import './css/App.scss';
+import BasicComponent from './BasicComponent';
 
 const ComponentLibs = () => {
   const componentsList = [
@@ -36,17 +35,19 @@ const ComponentLibs = () => {
   ];
 
   return (
-    <div className="components-libs-wrapper scrollbar-wrapper">
-      <p className="page-title">组件库</p>
-      <ul className="scrollbar-wrapper">
-        {componentsList.map((component) => (
-          <RdpComponent
-            key={component.elName}
-            title={component.title}
-            icon={component.icon}
-          />
-        ))}
-      </ul>
+    <div className="editor-side-bar">
+      <div className="components-libs-wrapper">
+        <p className="page-title">组件库</p>
+        <ul>
+          {componentsList.map((component) => (
+            <BasicComponent
+              key={component.elName}
+              title={component.title}
+              icon={component.icon}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

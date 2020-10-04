@@ -1,0 +1,113 @@
+@import '~antd/dist/antd.css';
+
+.editor-wrapper {
+    display: flex;
+    height: 100%;
+    position: relative;
+
+    .editor-side-bar {
+        width: 20%;
+    }
+
+    // .editor-page-edit-wrapper {
+    //   width: 210px;
+    //   padding: 0 1px;
+    // }
+    .editor-main {
+        flex: 1;
+        background: #f0f2f5;
+        position: relative;
+    }
+
+    .el-attr-edit-wrapper {
+        width: 20%;
+        padding: 10px;
+    }
+}
+
+.components-libs-wrapper {
+    user-select: none;
+    height: 100%;
+    padding-top: 60px;
+    position: relative;
+
+    ul {
+        padding: 10px;
+        list-style-type: none;
+
+        .components-lib-item {
+            color: #424242;
+            text-align: center;
+            background: #f4f4f4;
+            width: 80px;
+            float: left;
+            padding: 6px 0;
+            margin: 5px;
+            border: 1px solid #dddddd;
+            font-size: 12px;
+            cursor: pointer;
+            transition: All 0.3s ease-in-out;
+
+            &:hover {
+                background: #fff;
+                border: 1px solid blue;
+                color: blue;
+            }
+
+            .lib-item-img {}
+
+            .lib-item-title {}
+        }
+    }
+
+    .page-title {
+        position: absolute;
+        top: 16px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.editor-pane {
+    height: 100%;
+    width: 100%;
+    border: 1px solid #f5f5f5;
+    border-width: 0 1px;
+    background-position: 0 0, 13px 13px;
+    background-size: 26px 26px;
+    display: flex;
+    justify-content: center;
+
+    .editor-pane-inner {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        padding: 20px;
+
+        .editor-main {
+            border-radius: 3px;
+            box-shadow: 0 3px 10px #dcdcdc;
+            margin: 25px auto;
+            position: relative;
+            background: white;
+            transform-origin: center top;
+
+            .page-preview-wrapper {
+                height: 100%;
+                position: relative;
+            }
+
+            .page-wrapper-mask {
+                height: 100%;
+                width: 100%;
+                z-index: 1000;
+                position: absolute;
+                left: 0;
+                top: 0;
+                pointer-events: none;
+                outline: rgba(236, 238, 240, 0.77) solid 10000px;
+            }
+        }
+    }
+}

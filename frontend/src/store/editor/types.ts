@@ -25,7 +25,9 @@ export interface IProject {
 
 // State
 export interface ProjectState {
-  projectData: IProject
+  projectData: IProject,
+  activePageUUID: string,
+  activeElementUUID: string,
 }
 
 // Actions & Action Creators

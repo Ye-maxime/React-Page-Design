@@ -18,13 +18,17 @@ const initialState: ProjectState = {
       name: 'page1',
       elements: [{
         elementId: '1',
-        elementName: 'element1',
-        value: 'value', // 绑定值
+        elementName: '按钮',
+        value: '点我', // 绑定值
         valueType: 'string', // 值类型
         events: [],
       }],
     }],
   },
+  // 当前正在编辑的页面uuid
+  activePageUUID: '1',
+  // 画板中选中的元素uuid
+  activeElementUUID: '1',
 };
 
 const editorReducer = (
@@ -35,6 +39,7 @@ const editorReducer = (
     case ADD_PAGE:
       return {
         projectData: { ...state.projectData, pages: state.projectData.pages.concat(action.pageData) },
+        ...state,
       };
     case DELETE_PAGE:
       return {
@@ -44,11 +49,16 @@ const editorReducer = (
             (page) => page.pageId !== action.pageId,
           ),
         },
+        ...state,
       };
-    // case ADD_ELEMENT:
-    //     return {
-    //       projectData: { ...state.projectData, pages: state.projectData.pages.find((page) => page.pageId === currentPageId) },
-    //     };
+    case ADD_ELEMENT: {
+      const index = state.projectData.pages.findIndex((v) => v.pageId === state.activePageUUID);
+      console.log("projectData = " + JSON.stringify(state.projectData));
+      return {
+        projectData: { ...state.projectData, pages: state.projectData.pages[index].elements.push(action.elementData) },
+        ...state,
+      };
+    }
     default:
       return state;
   }
