@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable import/prefer-default-export */
+import produce from 'immer'; // https://www.pluralsight.com/guides/deeply-nested-objectives-redux
 import {
   ProjectState, ADD_PAGE, DELETE_PAGE, ADD_ELEMENT, DELETE_ELEMENT, EditorActionTypes,
 } from './types';
@@ -52,12 +53,10 @@ const editorReducer = (
         ...state,
       };
     case ADD_ELEMENT: {
-      const index = state.projectData.pages.findIndex((v) => v.pageId === state.activePageUUID);
-      console.log("projectData = " + JSON.stringify(state.projectData));
-      return {
-        projectData: { ...state.projectData, pages: state.projectData.pages[index].elements.push(action.elementData) },
-        ...state,
-      };
+      const pageIndex = state.projectData.pages.findIndex((p) => p.pageId === state.activePageUUID);
+      return produce(state, (draft) => {
+        draft.projectData.pages[pageIndex].elements.push(action.elementData);
+      });
     }
     default:
       return state;
