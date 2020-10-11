@@ -1,3 +1,4 @@
+// 中间主编辑页面
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -6,6 +7,7 @@ import {
   IProject, IElement, EditorActionTypes,
 } from '../store/editor/types';
 import { RootState } from '../store/index';
+import { renderer } from '../plugins/index';
 
 // export interface OwnProps {
 // }
@@ -36,7 +38,7 @@ const MainPanel: React.FunctionComponent<Props> = ({ projectData, activePageUUID
         <div className="editor-pane-inner">
           <div className="editor-main">
             <div className="page-preview-wrapper">
-              {pageElements().map((ele) => (ele.value))}
+              {pageElements().map((eleData, i) => renderer(eleData, i))}
             </div>
             <div className="page-wrapper-mask" />
           </div>

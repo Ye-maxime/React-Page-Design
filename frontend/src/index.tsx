@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './store/index';
 import Editor from './pages/Editor';
 import './assets/css/App.scss';
+import './assets/css/RdpComponent.scss';
 
 const store = createStore(rootReducer);
 

@@ -1,38 +1,32 @@
-// 主页面左边栏组件库
+/* eslint-disable max-len */
+// 左侧导航栏组件库
 // https://github.com/huangwei9527/quark-h5/blob/master/client/pages/editor/components/component-libs/Index.vue
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import * as actions from '../store/editor/actions';
 import BasicComponent from './BasicComponent';
+import {
+  EditorActionTypes, IElement,
+} from '../store/editor/types';
+import componentsList, { IBasicComponentConfig } from '../config/basicComponentConfig';
+import { getElementConfig } from '../dataModels/index';
 
-const ComponentLibs = () => {
-  const componentsList = [
-    {
-      elName: 'rpd-text',
-      title: '文字',
-      icon: 'iconfont iconwenben',
-      // 每个组件设置props来展示哪些显示哪些编辑项
-    //   valueType: '', // 标识数据类型，用于表单组件
-    //   defaultStyle: {
-    //     height: 40,
-    //   },
-    },
-    {
-      elName: 'rpd-button',
-      title: '按钮',
-      icon: 'iconfont iconanniuzu',
-      // 每个组件设置props来展示哪些显示哪些编辑项
-    //   valueType: '', // 标识数据类型，用于表单组件
-    //   defaultStyle: {
-    //     width: 140,
-    //     height: 40,
-    //     paddingTop: 10,
-    //     paddingBottom: 10,
-    //     borderColor: '#999999',
-    //     borderStyle: 'solid',
-    //     borderWidth: 1,
-    //     borderRadius: 4,
-    //   },
-    },
-  ];
+interface IDispatchProps {
+  addElement: (newElement: IElement) => EditorActionTypes;
+  setActiveElementUUID: (elementId: string) => EditorActionTypes;
+}
+
+type Props = IDispatchProps;
+
+const ComponentLibs: React.FunctionComponent<Props> = ({ addElement, setActiveElementUUID }: Props) => {
+  // 点击基本组件按钮 编辑页面插入新节点
+  const handleClick = (element: IBasicComponentConfig): void => {
+    const elementData: IElement = getElementConfig(element, { zIndex: 2 });
+    addElement(elementData);
+    setActiveElementUUID(elementData.elementId);
+    // TODO setActiveElementUUID之后如何聚焦刚加入的组件
+  };
 
   return (
     <div className="editor-side-bar">
@@ -41,9 +35,9 @@ const ComponentLibs = () => {
         <ul>
           {componentsList.map((component) => (
             <BasicComponent
-              key={component.elName}
-              title={component.title}
-              icon={component.icon}
+              key={component.elementName}
+              element={component}
+              handleClick={handleClick}
             />
           ))}
         </ul>
@@ -52,4 +46,10 @@ const ComponentLibs = () => {
   );
 };
 
-export default ComponentLibs;
+// 将 对应action 插入到组件的 props 中
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  addElement: (newElement) => dispatch(actions.addElement(newElement)),
+  setActiveElementUUID: (elementId) => dispatch(actions.setActiveElementUUID(elementId)),
+});
+
+export default connect<any, IDispatchProps, any>(null, mapDispatchToProps)(ComponentLibs);

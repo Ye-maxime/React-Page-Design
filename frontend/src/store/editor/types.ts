@@ -1,9 +1,17 @@
+export interface ICommonStyle {
+  width?: number
+  height?: number
+  color?: string
+  zIndex?: number
+}
+
 export interface IElement {
-  elementId: string
+  elementId?: string
   elementName: string
   value: string // 绑定值
   valueType: string // 值类型
   events: []
+  commonStyle?: ICommonStyle
 }
 
 export interface IPage {
@@ -35,6 +43,7 @@ export const ADD_PAGE = 'ADD_PAGE';
 export const DELETE_PAGE = 'DELETE_PAGE';
 export const ADD_ELEMENT = 'ADD_ELEMENT';
 export const DELETE_ELEMENT = 'DELETE_ELEMENT';
+export const SET_ACTIVE_ELEMENT_UUID = 'SET_ACTIVE_ELEMENT_UUID';
 
 interface AddPageAction {
   type: typeof ADD_PAGE
@@ -56,5 +65,10 @@ interface DeleteElementAction {
   elementId: string
 }
 
+interface SetActiveElementUUID {
+  type: typeof SET_ACTIVE_ELEMENT_UUID
+  elementId: string
+}
+
 // eslint-disable-next-line max-len
-export type EditorActionTypes = AddPageAction | DeletePageAction | AddElementAction | DeleteElementAction
+export type EditorActionTypes = AddPageAction | DeletePageAction | AddElementAction | DeleteElementAction | SetActiveElementUUID;
