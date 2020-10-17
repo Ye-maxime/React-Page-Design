@@ -1,0 +1,1 @@
+// 对应client/pages/editor/components/attr-configure/attr-props-components/props-attr/index.vue

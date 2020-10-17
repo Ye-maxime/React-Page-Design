@@ -8,6 +8,7 @@ import {
   ADD_ELEMENT,
   DELETE_ELEMENT,
   SET_ACTIVE_ELEMENT_UUID,
+  CHANGE_FONT_SIZE,
   EditorActionTypes,
 } from './types';
 
@@ -40,7 +41,7 @@ const initialState: ProjectState = {
   // 当前正在编辑的页面uuid
   activePageUUID: '1',
   // 画板中选中的元素uuid
-  activeElementUUID: '1',
+  activeElementUUID: '',
 };
 
 const editorReducer = (
@@ -76,6 +77,15 @@ const editorReducer = (
     }
     case SET_ACTIVE_ELEMENT_UUID: {
       return { ...state, activeElementUUID: action.elementId };
+    }
+    case CHANGE_FONT_SIZE: {
+      const pageIndex = state.projectData.pages.findIndex(
+        (p) => p.pageId === state.activePageUUID,
+      );
+      return produce(state, (draft) => {
+        const currentElement = draft.projectData.pages[pageIndex].elements.find((ele) => ele.elementId === state.activeElementUUID);
+        currentElement.commonStyle.fontSize = action.fontSize;
+      });
     }
     default:
       return state;

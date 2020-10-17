@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import {
   IProject, IPage, EditorActionTypes,
 } from '../store/editor/types';
-import ComponentLibs from '../components/ComponentLibs';
-import AttributesPanel from '../components/AttributesPanel';
-import MainPanel from '../components/MainPanel';
+import ComponentLibs from '../components/left/ComponentLibs';
+import AttributesPanel from '../components/right/AttributesPanel';
+import MainPanel from '../components/middle/MainPanel';
 
 interface ISideBarMenus {
   label: string;

@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 // 中间主编辑页面
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import * as actions from '../store/editor/actions';
+import * as actions from '../../store/editor/actions';
 import {
   IProject, IElement, EditorActionTypes,
-} from '../store/editor/types';
-import { RootState } from '../store/index';
-import { renderer } from '../plugins/index';
+} from '../../store/editor/types';
+import { RootState } from '../../store/index';
+import { renderer } from '../../plugins/index';
 
 // export interface OwnProps {
 // }
@@ -17,9 +18,13 @@ interface IStateProps {
   activePageUUID: string;
 }
 
-type Props = IStateProps;
+interface IDispatchProps {
+  setActiveElementUUID: (elementId: string) => EditorActionTypes;
+}
 
-const MainPanel: React.FunctionComponent<Props> = ({ projectData, activePageUUID } : Props) => {
+type Props = IStateProps & IDispatchProps;
+
+const MainPanel: React.FunctionComponent<Props> = ({ projectData, activePageUUID, setActiveElementUUID } : Props) => {
   // const [pageElements, setPageElements] = React.useState([]);
 
   // React.useEffect(() => {
@@ -38,7 +43,7 @@ const MainPanel: React.FunctionComponent<Props> = ({ projectData, activePageUUID
         <div className="editor-pane-inner">
           <div className="editor-main">
             <div className="page-preview-wrapper">
-              {pageElements().map((eleData, i) => renderer(eleData, i))}
+              {pageElements().map((eleData) => renderer(eleData, setActiveElementUUID))}
             </div>
             <div className="page-wrapper-mask" />
           </div>
@@ -56,4 +61,8 @@ const mapStateToProps = (state: RootState, ownProps: any): IStateProps => (
   }
 );
 
-export default connect<IStateProps, any, any>(mapStateToProps, {})(MainPanel);
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  setActiveElementUUID: (elementId) => dispatch(actions.setActiveElementUUID(elementId)),
+});
+
+export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(MainPanel);

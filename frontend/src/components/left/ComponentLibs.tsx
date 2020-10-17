@@ -4,13 +4,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import * as actions from '../store/editor/actions';
+import * as actions from '../../store/editor/actions';
 import BasicComponent from './BasicComponent';
 import {
   EditorActionTypes, IElement,
-} from '../store/editor/types';
-import componentsList, { IBasicComponentConfig } from '../config/basicComponentConfig';
-import { getElementConfig } from '../dataModels/index';
+} from '../../store/editor/types';
+import componentsList, { IBasicComponentConfig } from '../../config/basicComponentConfig';
+import { getElementConfig } from '../../dataModels/index';
 
 interface IDispatchProps {
   addElement: (newElement: IElement) => EditorActionTypes;
@@ -25,7 +25,6 @@ const ComponentLibs: React.FunctionComponent<Props> = ({ addElement, setActiveEl
     const elementData: IElement = getElementConfig(element, { zIndex: 2 });
     addElement(elementData);
     setActiveElementUUID(elementData.elementId);
-    // TODO setActiveElementUUID之后如何聚焦刚加入的组件
   };
 
   return (

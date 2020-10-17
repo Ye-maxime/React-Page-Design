@@ -1,12 +1,46 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable max-len */
 import * as React from 'react';
+import CSS from 'csstype';
+import { Button } from 'antd';
+import { EditorActionTypes, ICommonStyle } from '../store/editor/types';
 
-const RpdButton = () => {
+export interface OwnProps {
+  id: string;
+  commonStyle: ICommonStyle;
+  setActiveElementUUID: (elementId: string) => EditorActionTypes;
+}
+
+type Props = OwnProps;
+
+const RpdButton: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveElementUUID }: Props) => {
   const [text, setText] = React.useState('按钮');
+  const buttonRef = React.useRef(null);
+
+  React.useEffect(() => {
+    buttonRef.current.focus();
+  }, [commonStyle]);
+
+  const style: CSS.Properties = {
+    // backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    // position: 'absolute',
+    // right: 0,
+    // bottom: '2rem',
+    // padding: '0.5rem',
+    // fontFamily: 'sans-serif',
+    fontSize: `${commonStyle.fontSize}px`,
+    // color: "yellow",
+  };
 
   return (
-    <div className="rpd-button">
+    <Button
+      className="rpd-button"
+      ref={buttonRef}
+      style={style}
+      onClick={() => setActiveElementUUID(id)}
+    >
       { text }
-    </div>
+    </Button>
   );
 };
 

@@ -3,6 +3,7 @@ export interface ICommonStyle {
   height?: number
   color?: string
   zIndex?: number
+  fontSize?: number
 }
 
 export interface IElement {
@@ -44,6 +45,7 @@ export const DELETE_PAGE = 'DELETE_PAGE';
 export const ADD_ELEMENT = 'ADD_ELEMENT';
 export const DELETE_ELEMENT = 'DELETE_ELEMENT';
 export const SET_ACTIVE_ELEMENT_UUID = 'SET_ACTIVE_ELEMENT_UUID';
+export const CHANGE_FONT_SIZE = 'CHANGE_FONT_SIZE';
 
 interface AddPageAction {
   type: typeof ADD_PAGE
@@ -70,5 +72,10 @@ interface SetActiveElementUUID {
   elementId: string
 }
 
+interface ChangeFontSize {
+  type: typeof CHANGE_FONT_SIZE
+  fontSize: number
+}
+
 // eslint-disable-next-line max-len
-export type EditorActionTypes = AddPageAction | DeletePageAction | AddElementAction | DeleteElementAction | SetActiveElementUUID;
+export type EditorActionTypes = AddPageAction | DeletePageAction | AddElementAction | DeleteElementAction | SetActiveElementUUID | ChangeFontSize;

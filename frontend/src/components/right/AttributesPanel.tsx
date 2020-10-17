@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Tabs } from 'antd';
+import EditAttributesTab from './EditAttributesTab';
 
 const { TabPane } = Tabs;
 
@@ -11,7 +12,7 @@ const AttributesPanel: React.FunctionComponent = () => (
   <div className="el-attr-edit-wrapper">
     <Tabs defaultActiveKey="1" onChange={callback}>
       <TabPane tab="属性" key="1">
-        属性
+        <EditAttributesTab />
       </TabPane>
       <TabPane tab="事件" key="2">
         事件

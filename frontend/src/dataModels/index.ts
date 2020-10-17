@@ -14,7 +14,7 @@ const dict: any = {
 };
 
 // 元素配置信息字段
-const elementConfig: IElement = {
+export const elementConfig: IElement = {
   // elementId: '2',
   elementName: '',
   value: '', // 绑定值
@@ -25,10 +25,11 @@ const elementConfig: IElement = {
     height: 50,
     color: '#000000',
     zIndex: 1,
+    fontSize: 16,
   }, // 公共样式
 };
 
-const getElementConfig = (element: IBasicComponentConfig, extendStyle = {}): IElement => {
+export const getElementConfig = (element: IBasicComponentConfig, extendStyle = {}): IElement => {
   const elementData: IBasicComponentConfig = cloneDeep(element);
   const type = elementData.valueType || 'String'; // 默认string类型
   const elementConfigData = cloneDeep(elementConfig);
@@ -45,9 +46,4 @@ const getElementConfig = (element: IBasicComponentConfig, extendStyle = {}): IEl
   config.value = element.defaultValue || dict[type];
   config.valueType = type;
   return config;
-};
-
-export {
-  elementConfig,
-  getElementConfig,
 };
