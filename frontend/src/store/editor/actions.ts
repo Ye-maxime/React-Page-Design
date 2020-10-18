@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {
-  IPage, IElement, ADD_PAGE, DELETE_PAGE, ADD_ELEMENT, DELETE_ELEMENT, SET_ACTIVE_ELEMENT_UUID, EditorActionTypes, CHANGE_FONT_SIZE,
+  IPage, IElement, ADD_PAGE, DELETE_PAGE, ADD_ELEMENT, DELETE_ELEMENT, SET_ACTIVE_ELEMENT_UUID, CHANGE_FONT_SIZE, EditorActionTypes,
 } from './types';
 
 export function addPage(newPage: IPage): EditorActionTypes {

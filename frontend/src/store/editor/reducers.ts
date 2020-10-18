@@ -42,6 +42,7 @@ const initialState: ProjectState = {
   activePageUUID: '1',
   // 画板中选中的元素uuid
   activeElementUUID: '',
+  activeElement: null,
 };
 
 const editorReducer = (
@@ -76,7 +77,13 @@ const editorReducer = (
       });
     }
     case SET_ACTIVE_ELEMENT_UUID: {
-      return { ...state, activeElementUUID: action.elementId };
+      const pageIndex = state.projectData.pages.findIndex(
+        (p) => p.pageId === state.activePageUUID,
+      );
+      const currentElement = state.projectData.pages[pageIndex].elements.find((ele) => ele.elementId === action.elementId);
+
+      console.log('SET_ACTIVE_ELEMENT_UUID state.activeElement= ', JSON.stringify(currentElement));
+      return { ...state, activeElement: currentElement, activeElementUUID: action.elementId };
     }
     case CHANGE_FONT_SIZE: {
       const pageIndex = state.projectData.pages.findIndex(

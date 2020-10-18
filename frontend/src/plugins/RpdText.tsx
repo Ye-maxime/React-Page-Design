@@ -15,11 +15,6 @@ type Props = OwnProps;
 
 const RpdText: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveElementUUID }: Props) => {
   const [text, setText] = React.useState('');
-  const inputRef = React.useRef(null);
-
-  React.useEffect(() => {
-    inputRef.current.focus();
-  }, [commonStyle]);
 
   // https://fettblog.eu/typescript-react/styles/
   const style: CSS.Properties = {
@@ -37,7 +32,6 @@ const RpdText: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveEle
     <Input
       className="rpd-text"
       placeholder="请输入文字"
-      ref={inputRef}
       style={style}
       onClick={() => setActiveElementUUID(id)}
     />

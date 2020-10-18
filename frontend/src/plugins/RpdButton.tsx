@@ -15,11 +15,6 @@ type Props = OwnProps;
 
 const RpdButton: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveElementUUID }: Props) => {
   const [text, setText] = React.useState('按钮');
-  const buttonRef = React.useRef(null);
-
-  React.useEffect(() => {
-    buttonRef.current.focus();
-  }, [commonStyle]);
 
   const style: CSS.Properties = {
     // backgroundColor: 'rgba(255, 255, 255, 0.85)',
@@ -35,7 +30,6 @@ const RpdButton: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveE
   return (
     <Button
       className="rpd-button"
-      ref={buttonRef}
       style={style}
       onClick={() => setActiveElementUUID(id)}
     >

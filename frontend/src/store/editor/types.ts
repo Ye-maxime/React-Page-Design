@@ -37,6 +37,7 @@ export interface ProjectState {
   projectData: IProject,
   activePageUUID: string,
   activeElementUUID: string,
+  activeElement: IElement,
 }
 
 // Actions & Action Creators
