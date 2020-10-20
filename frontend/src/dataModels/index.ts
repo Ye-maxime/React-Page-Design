@@ -27,6 +27,7 @@ export const elementConfig: IElement = {
     zIndex: 1,
     fontSize: 16,
   }, // 公共样式
+  propsValue: {}, // 属性参数 都来自于以Rdp开头的组件中各自需要的某些属性
 };
 
 export const getElementConfig = (element: IBasicComponentConfig, extendStyle = {}): IElement => {

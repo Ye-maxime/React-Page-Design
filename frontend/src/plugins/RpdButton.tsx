@@ -13,7 +13,11 @@ export interface OwnProps {
 
 type Props = OwnProps;
 
-const RpdButton: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveElementUUID }: Props) => {
+const RpdButton: React.FunctionComponent<Props> = ({
+  id,
+  commonStyle,
+  setActiveElementUUID,
+}: Props) => {
   const [text, setText] = React.useState('按钮');
 
   const style: CSS.Properties = {
@@ -24,6 +28,7 @@ const RpdButton: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveE
     // padding: '0.5rem',
     // fontFamily: 'sans-serif',
     fontSize: `${commonStyle.fontSize}px`,
+    width: `${commonStyle.width}px`,
     // color: "yellow",
   };
 
@@ -33,7 +38,7 @@ const RpdButton: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveE
       style={style}
       onClick={() => setActiveElementUUID(id)}
     >
-      { text }
+      {text}
     </Button>
   );
 };

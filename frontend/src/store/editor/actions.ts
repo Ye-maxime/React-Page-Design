@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {
-  IPage, IElement, ADD_PAGE, DELETE_PAGE, ADD_ELEMENT, DELETE_ELEMENT, SET_ACTIVE_ELEMENT_UUID, CHANGE_FONT_SIZE, EditorActionTypes,
+  IPage, IElement, ADD_PAGE, DELETE_PAGE, ADD_ELEMENT, DELETE_ELEMENT, SET_ACTIVE_ELEMENT_UUID, CHANGE_ATTR, EditorActionTypes,
 } from './types';
 
 export function addPage(newPage: IPage): EditorActionTypes {
@@ -38,9 +38,10 @@ export function setActiveElementUUID(elementId: string): EditorActionTypes {
   };
 }
 
-export function changeFontSize(fontSize: number): EditorActionTypes {
+export function changeAttr(attrName: string, value: number | string): EditorActionTypes {
   return {
-    type: CHANGE_FONT_SIZE,
-    fontSize,
+    type: CHANGE_ATTR,
+    attrName,
+    value,
   };
 }

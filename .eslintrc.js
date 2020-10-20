@@ -1,4 +1,5 @@
 module.exports = {
+ autoFixOnSave: true,
   root: true,
   extends: ['airbnb', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',

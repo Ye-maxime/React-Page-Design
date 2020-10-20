@@ -8,7 +8,7 @@ import {
   ADD_ELEMENT,
   DELETE_ELEMENT,
   SET_ACTIVE_ELEMENT_UUID,
-  CHANGE_FONT_SIZE,
+  CHANGE_ATTR,
   EditorActionTypes,
 } from './types';
 
@@ -47,7 +47,7 @@ const initialState: ProjectState = {
 
 const editorReducer = (
   state = initialState,
-  action: EditorActionTypes,
+  action: EditorActionTypes
 ): ProjectState => {
   switch (action.type) {
     case ADD_PAGE:
@@ -63,14 +63,14 @@ const editorReducer = (
         projectData: {
           ...state.projectData,
           pages: state.projectData.pages.filter(
-            (page) => page.pageId !== action.pageId,
+            (page) => page.pageId !== action.pageId
           ),
         },
         ...state,
       };
     case ADD_ELEMENT: {
       const pageIndex = state.projectData.pages.findIndex(
-        (p) => p.pageId === state.activePageUUID,
+        (p) => p.pageId === state.activePageUUID
       );
       return produce(state, (draft) => {
         draft.projectData.pages[pageIndex].elements.push(action.elementData);
@@ -78,20 +78,36 @@ const editorReducer = (
     }
     case SET_ACTIVE_ELEMENT_UUID: {
       const pageIndex = state.projectData.pages.findIndex(
-        (p) => p.pageId === state.activePageUUID,
+        (p) => p.pageId === state.activePageUUID
       );
-      const currentElement = state.projectData.pages[pageIndex].elements.find((ele) => ele.elementId === action.elementId);
+      const currentElement = state.projectData.pages[pageIndex].elements.find(
+        (ele) => ele.elementId === action.elementId
+      );
 
-      console.log('SET_ACTIVE_ELEMENT_UUID state.activeElement= ', JSON.stringify(currentElement));
-      return { ...state, activeElement: currentElement, activeElementUUID: action.elementId };
+      console.log(
+        'SET_ACTIVE_ELEMENT_UUID state.activeElement= ',
+        JSON.stringify(currentElement)
+      );
+      return {
+        ...state,
+        activeElement: currentElement,
+        activeElementUUID: action.elementId,
+      };
     }
-    case CHANGE_FONT_SIZE: {
+    case CHANGE_ATTR: {
+      const { attrName, value } = action;
       const pageIndex = state.projectData.pages.findIndex(
-        (p) => p.pageId === state.activePageUUID,
+        (p) => p.pageId === state.activePageUUID
       );
       return produce(state, (draft) => {
-        const currentElement = draft.projectData.pages[pageIndex].elements.find((ele) => ele.elementId === state.activeElementUUID);
-        currentElement.commonStyle.fontSize = action.fontSize;
+        const currentElement = draft.projectData.pages[pageIndex].elements.find(
+          (ele) => ele.elementId === state.activeElementUUID
+        );
+        if (attrName in currentElement.commonStyle) {
+            currentElement.commonStyle[attrName] = value;
+        } else {
+            currentElement.propsValue[attrName] = value;
+        }
       });
     }
     default:

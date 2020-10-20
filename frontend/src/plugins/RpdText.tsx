@@ -25,6 +25,7 @@ const RpdText: React.FunctionComponent<Props> = ({ id, commonStyle, setActiveEle
     // padding: '0.5rem',
     // fontFamily: 'sans-serif',
     fontSize: `${commonStyle.fontSize}px`,
+    width: `${commonStyle.width}px`,
     // color: "yellow",
   };
 

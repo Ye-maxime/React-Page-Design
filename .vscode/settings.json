@@ -16,7 +16,8 @@
         "editor.formatOnSave": true
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true,
+        "source.fixAll": true,
+        // "source.fixAll.eslint": true
     },
     "eslint.validate": [
         "javascript",
@@ -24,5 +25,5 @@
         "typescript",
         "typescriptreact"
     ],
-    "prettier.eslintIntegration": true
+    "prettier.singleQuote": true // 这样文件保存后 会保持单引号
 }

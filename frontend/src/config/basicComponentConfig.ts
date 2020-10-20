@@ -1,12 +1,12 @@
 import { ICommonStyle } from '../store/editor/types';
 
 export interface IBasicComponentConfig {
-  elementName: string
-  title: string // 绑定值
-  icon: string // 值类型
-  defaultValue: string
-  valueType: string
-  defaultStyle?: ICommonStyle
+  elementName: string;
+  title: string; // 绑定值
+  icon: string; // 值类型
+  defaultValue: string;
+  valueType: string;
+  defaultStyle?: ICommonStyle;
 }
 
 // 左侧导航栏基本组件列表
@@ -19,6 +19,8 @@ const componentsList: IBasicComponentConfig[] = [
     // 每个组件设置props来展示哪些显示哪些编辑项
     valueType: '', // 标识数据类型，用于表单组件
     defaultStyle: {
+      // config.commonStyle = merge(config.commonStyle, elementData.defaultStyle); 若重复会被合并
+      width: 200,
       height: 40,
     },
   },
@@ -30,7 +32,7 @@ const componentsList: IBasicComponentConfig[] = [
     // 每个组件设置props来展示哪些显示哪些编辑项
     valueType: '', // 标识数据类型，用于表单组件
     defaultStyle: {
-      width: 140,
+      width: 80,
       height: 40,
     },
   },
