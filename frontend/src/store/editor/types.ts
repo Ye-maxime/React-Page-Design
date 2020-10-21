@@ -40,6 +40,14 @@ export interface IProject {
   pages: IPage[];
 }
 
+// 此接口用于定义 frontend/node_modules/@types/react/index.d.ts 里面React.createElement函数的props参数的类型P
+// props?: Attributes & P | null,
+export interface IRdpElement {
+  element?: IElement;
+  setActiveElementUUID?: (elementId: string) => EditorActionTypes;
+  changeAttr?: (attrName: string, value: number | string) => EditorActionTypes;
+}
+
 // State
 export interface ProjectState {
   projectData: IProject;

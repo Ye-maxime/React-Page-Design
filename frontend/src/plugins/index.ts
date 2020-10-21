@@ -1,6 +1,10 @@
 /* eslint-disable max-len */
 import * as React from 'react';
-import { EditorActionTypes, IElement } from '../store/editor/types';
+import {
+  EditorActionTypes,
+  IElement,
+  IRdpElement,
+} from '../store/editor/types';
 import RpdButton from './RpdButton';
 import RpdText from './RpdText';
 
@@ -26,14 +30,14 @@ const renderer = (
   // TODO 减少不必要的渲染
   console.log('render !!!');
   if (typeof RpdRegisterComponentsObject[data.elementName] !== 'undefined') {
-    return React.createElement(RpdRegisterComponentsObject[data.elementName], {
-      key: data.elementId,
-      // src: data.src,
-      // value: data.value
-      // 在frontend/node_modules/@types/react/index.d.ts 里面自己添加的属性element, setActiveElementUUID
-      element: data,
-      setActiveElementUUID,
-    });
+    return React.createElement<IRdpElement>(
+      RpdRegisterComponentsObject[data.elementName],
+      {
+        key: data.elementId,
+        element: data,
+        setActiveElementUUID: setActiveElementUUID,
+      }
+    );
   }
 };
 

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import * as actions from '../../store/editor/actions';
-import { EditorActionTypes, IElement } from '../../store/editor/types';
+import { EditorActionTypes, IElement, IRdpElement } from '../../store/editor/types';
 import { RootState } from '../../store/index';
 import attrRdpComponentsMap from './attrRdpComponents/index';
 
@@ -47,7 +47,7 @@ const PropsAttributes: React.FunctionComponent<Props> = ({
         <div className="attr-item-edit-wrapper" key={activeElement.elementId}>
           <p className="attr-item-title">{k.split('-')[2]} :</p>
           <div className="attr-item-edit-input">
-            {React.createElement(attrRdpComponentsMap.get(k), {
+            {React.createElement<IRdpElement>(attrRdpComponentsMap.get(k), {
               element: activeElement,
               changeAttr: changeAttr,
             })}
