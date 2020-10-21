@@ -113,7 +113,33 @@
     }
 }
 
-.menu-attr-item{
-    margin: 10px;
-    height: 50px;
+.attr-item-edit-wrapper {
+    padding-left: 4px;
+    display: flex;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 10px;
+    .attr-item-title {
+      text-align: left;
+      min-width: 60px;
+      font-size: 12px;
+      line-height: 28px;
+    }
+    .attr-item-edit-input {
+      &.col-2 {
+        width: 90px;
+        margin-left: 10px;
+      }
+      &.col-1 {
+        width: 250px;
+      }
+      &.col-3 {
+        width: 60px;
+        margin-left: 10px;
+      }
+      &.col-4 {
+        width: 50px;
+        margin-left: 10px;
+      }
+    }
 }

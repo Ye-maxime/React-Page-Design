@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import * as actions from '../../store/editor/actions';
 import {
-  IProject, IElement, EditorActionTypes,
+  IProject,
+  EditorActionTypes,
 } from '../../store/editor/types';
 import { RootState } from '../../store/index';
 import { renderer } from '../../plugins/index';
@@ -24,16 +25,15 @@ interface IDispatchProps {
 
 type Props = IStateProps & IDispatchProps;
 
-const MainPanel: React.FunctionComponent<Props> = ({ projectData, activePageUUID, setActiveElementUUID } : Props) => {
-  // const [pageElements, setPageElements] = React.useState([]);
-
-  // React.useEffect(() => {
-  //   console.log("!!!! useeffect projectData = " + JSON.stringify(projectData));
-  // }, []);
-
+const MainPanel: React.FunctionComponent<Props> = ({
+  projectData,
+  activePageUUID,
+  setActiveElementUUID,
+}: Props) => {
   const pageElements = () => {
-    const activePage = projectData.pages.find((page) => page.pageId
-    === activePageUUID);
+    const activePage = projectData.pages.find(
+      (page) => page.pageId === activePageUUID
+    );
     return activePage.elements;
   };
 
@@ -43,7 +43,9 @@ const MainPanel: React.FunctionComponent<Props> = ({ projectData, activePageUUID
         <div className="editor-pane-inner">
           <div className="editor-main">
             <div className="page-preview-wrapper">
-              {pageElements().map((eleData) => renderer(eleData, setActiveElementUUID))}
+              {pageElements().map((eleData) =>
+                renderer(eleData, setActiveElementUUID)
+              )}
             </div>
             <div className="page-wrapper-mask" />
           </div>
@@ -54,15 +56,17 @@ const MainPanel: React.FunctionComponent<Props> = ({ projectData, activePageUUID
 };
 
 // 将 reducer 中的状态插入到组件的 props 中
-const mapStateToProps = (state: RootState, ownProps: any): IStateProps => (
-  {
-    projectData: state.editor.projectData,
-    activePageUUID: state.editor.activePageUUID,
-  }
-);
-
-const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
-  setActiveElementUUID: (elementId) => dispatch(actions.setActiveElementUUID(elementId)),
+const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
+  projectData: state.editor.projectData,
+  activePageUUID: state.editor.activePageUUID,
 });
 
-export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(MainPanel);
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  setActiveElementUUID: (elementId) =>
+    dispatch(actions.setActiveElementUUID(elementId)),
+});
+
+export default connect<IStateProps, IDispatchProps, any>(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainPanel);

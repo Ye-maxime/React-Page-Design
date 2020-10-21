@@ -49,8 +49,9 @@ const CommonAttributes: React.FunctionComponent<Props> = ({
 
   return (
     <>
+      <h3>共有属性</h3>
       <div className="attr-item-edit-wrapper">
-        <p className="attr-item-title">字体大小：</p>
+        <p className="attr-item-title">字体大小 :</p>
         <div className="col-2 attr-item-edit-input">
           <InputNumber
             min={6}
@@ -61,7 +62,7 @@ const CommonAttributes: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="attr-item-edit-wrapper">
-        <p className="attr-item-title">宽度：</p>
+        <p className="attr-item-title">宽度 :</p>
         <div className="col-2 attr-item-edit-input">
           <InputNumber
             min={0}
@@ -80,7 +81,8 @@ const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
-  changeAttr: (attrName, value) => dispatch(actions.changeAttr(attrName, value)),
+  changeAttr: (attrName, value) =>
+    dispatch(actions.changeAttr(attrName, value)),
 });
 
 export default connect<IStateProps, IDispatchProps, any>(

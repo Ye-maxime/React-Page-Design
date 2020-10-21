@@ -43,6 +43,7 @@ export const getElementConfig = (element: IBasicComponentConfig, extendStyle = {
   // 样式
   config.commonStyle = merge(config.commonStyle, elementData.defaultStyle);
   config.commonStyle = merge(config.commonStyle, extendStyle);
+  config.propsValue = merge(config.propsValue, elementData.propsValue);
 
   config.value = element.defaultValue || dict[type];
   config.valueType = type;

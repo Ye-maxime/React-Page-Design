@@ -1,4 +1,4 @@
-import { ICommonStyle } from '../store/editor/types';
+import { ICommonStyle, IPropsValue } from '../store/editor/types';
 
 export interface IBasicComponentConfig {
   elementName: string;
@@ -7,6 +7,7 @@ export interface IBasicComponentConfig {
   defaultValue: string;
   valueType: string;
   defaultStyle?: ICommonStyle;
+  propsValue?: IPropsValue;
 }
 
 // 左侧导航栏基本组件列表
@@ -23,6 +24,9 @@ const componentsList: IBasicComponentConfig[] = [
       width: 200,
       height: 40,
     },
+    propsValue: {
+      placeholder: '这是一段文字',
+    },
   },
   {
     elementName: 'rpd-button',
@@ -35,6 +39,7 @@ const componentsList: IBasicComponentConfig[] = [
       width: 80,
       height: 40,
     },
+    propsValue: {},
   },
 ];
 

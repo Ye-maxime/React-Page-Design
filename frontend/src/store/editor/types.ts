@@ -9,7 +9,8 @@ export interface ICommonStyle {
 
 export interface IPropsValue {
   [key: string]: any; // 定义一个映射类型
-  placeholder?: number;
+  placeholder?: string;
+  //   fontSize?: number;
 }
 
 export interface IElement {

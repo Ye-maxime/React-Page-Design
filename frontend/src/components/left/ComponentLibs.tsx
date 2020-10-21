@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import * as actions from '../../store/editor/actions';
 import BasicComponent from './BasicComponent';
-import {
-  EditorActionTypes, IElement,
-} from '../../store/editor/types';
-import componentsList, { IBasicComponentConfig } from '../../config/basicComponentConfig';
+import { EditorActionTypes, IElement } from '../../store/editor/types';
+import componentsList, {
+  IBasicComponentConfig,
+} from '../../config/basicComponentConfig';
 import { getElementConfig } from '../../dataModels/index';
 
 interface IDispatchProps {
@@ -19,7 +19,10 @@ interface IDispatchProps {
 
 type Props = IDispatchProps;
 
-const ComponentLibs: React.FunctionComponent<Props> = ({ addElement, setActiveElementUUID }: Props) => {
+const ComponentLibs: React.FunctionComponent<Props> = ({
+  addElement,
+  setActiveElementUUID,
+}: Props) => {
   // 点击基本组件按钮 编辑页面插入新节点
   const handleClick = (element: IBasicComponentConfig): void => {
     const elementData: IElement = getElementConfig(element, { zIndex: 2 });
@@ -48,7 +51,11 @@ const ComponentLibs: React.FunctionComponent<Props> = ({ addElement, setActiveEl
 // 将 对应action 插入到组件的 props 中
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   addElement: (newElement) => dispatch(actions.addElement(newElement)),
-  setActiveElementUUID: (elementId) => dispatch(actions.setActiveElementUUID(elementId)),
+  setActiveElementUUID: (elementId) =>
+    dispatch(actions.setActiveElementUUID(elementId)),
 });
 
-export default connect<any, IDispatchProps, any>(null, mapDispatchToProps)(ComponentLibs);
+export default connect<any, IDispatchProps, any>(
+  null,
+  mapDispatchToProps
+)(ComponentLibs);
