@@ -1,0 +1,23 @@
+{
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "database": "ReactPageDesign",
+    "synchronize": true,
+    "logging": false,
+    "useUnifiedTopology": true,
+    "entities": [
+        "src/entity/*.ts"
+    ],
+    "subscribers": [
+        "src/subscriber/*.js"
+    ],
+    "migrations": [
+        "src/migration/*.js"
+    ],
+    "cli": {
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration",
+        "subscribersDir": "src/subscriber"
+    }
+}

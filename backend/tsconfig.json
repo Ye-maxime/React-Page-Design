@@ -1,16 +1,24 @@
 {
     "compilerOptions": {
-      "module": "commonjs", // 编译生成的模块系统代码
-      "target": "es2020", // 指定ecmascript的目标版本
-      "noImplicitAny": true, // 禁止隐式any类型
-      "outDir": "./dist",
-      "baseUrl": "./",
-      "sourceMap": false,
-      "allowJs": false, // 是否允许出现js
-      "newLine": "LF",
-      "experimentalDecorators": true, // 开启装饰器
-      "emitDecoratorMetadata": true, // 开启元编程
+        "module": "commonjs", // 编译生成的模块系统代码
+        "target": "es2020", // 指定ecmascript的目标版本
+        "noImplicitAny": true, // 禁止隐式any类型
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "sourceMap": false,
+        "allowJs": false, // 是否允许出现js
+        "newLine": "LF",
+        "strict": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true, // 开启装饰器
+        "emitDecoratorMetadata": true, // 开启元编程
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
     },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
-  }
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
