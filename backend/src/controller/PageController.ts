@@ -16,12 +16,12 @@ export class PageController {
   constructor(private pageService: PageService) {}
 
   @Get('/')
-  getAll() {
+  getPages() {
     return this.pageService.getAll();
   }
 
   @Get('/:id')
-  getOne(@Param('id') id: number) {
+  getPage(@Param('id') id: number) {
     return this.pageService.getOne(id);
   }
 
@@ -30,10 +30,17 @@ export class PageController {
   //    return "Saving user...";
   // }
 
-  // @Put("/users/:id")
-  // put(@Param("id") id: number, @Body() user: any) {
-  //    return "Updating a user...";
-  // }
+  @Post('/add')
+  addPage(@Body() page: any) {
+    console.log('server add page = ', page);
+    return 'Saving a page...';
+  }
+
+  @Put('/update/:id')
+  updatePage(@Param('id') id: number, @Body() page: any) {
+    console.log('server update page = ', page);
+    return 'Updating a page...';
+  }
 
   // @Delete("/users/:id")
   // remove(@Param("id") id: number) {

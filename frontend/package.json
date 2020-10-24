@@ -25,18 +25,29 @@
     "sass": "^1.26.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
     "@types/react-redux": "^7.1.9",
-    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^4.3.0",
+    "fork-ts-checker-webpack-plugin": "^5.2.0",
     "html-webpack-plugin": "^4.5.0",
     "mini-css-extract-plugin": "^0.11.3",
     "sass-loader": "^10.0.2",
     "source-map-loader": "^1.1.0",
     "style-loader": "^1.3.0",
+    "ts-loader": "^8.0.7",
     "typescript": "^4.0.3",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.11.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env"
+    ]
   }
 }

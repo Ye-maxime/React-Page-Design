@@ -7,6 +7,7 @@ import {
   DELETE_PAGE,
   ADD_ELEMENT,
   DELETE_ELEMENT,
+  SET_ACTIVE_PAGE_UUID,
   SET_ACTIVE_ELEMENT_UUID,
   CHANGE_ATTR,
   EditorActionTypes,
@@ -23,23 +24,24 @@ const initialState: ProjectState = {
     width: 500,
     height: 500,
     pages: [
-      {
-        pageId: '1',
-        name: 'page1',
-        elements: [
-          {
-            elementId: '1',
-            elementName: '按钮',
-            value: '点我', // 绑定值
-            valueType: 'string', // 值类型
-            events: [],
-          },
-        ],
-      },
+      //   {
+      //     pageId: '1',
+      //     name: 'page1',
+      //     elements: [
+      //       {
+      //         elementId: '1',
+      //         elementName: '按钮',
+      //         value: '点我', // 绑定值
+      //         valueType: 'string', // 值类型
+      //         events: [],
+      //       },
+      //     ],
+      //   },
     ],
   },
   // 当前正在编辑的页面uuid
-  activePageUUID: '1',
+  //   activePageUUID: '1',
+  activePageUUID: '',
   // 画板中选中的元素uuid
   activeElementUUID: '',
   activeElement: null,
@@ -54,7 +56,7 @@ const editorReducer = (
       return {
         projectData: {
           ...state.projectData,
-          pages: state.projectData.pages.concat(action.pageData),
+          pages: state.projectData.pages.push(action.pageData),
         },
         ...state,
       };
@@ -75,6 +77,12 @@ const editorReducer = (
       return produce(state, (draft) => {
         draft.projectData.pages[pageIndex].elements.push(action.elementData);
       });
+    }
+    case SET_ACTIVE_PAGE_UUID: {
+      return {
+        ...state,
+        activePageUUID: action.pageId,
+      };
     }
     case SET_ACTIVE_ELEMENT_UUID: {
       const pageIndex = state.projectData.pages.findIndex(
@@ -104,9 +112,9 @@ const editorReducer = (
           (ele) => ele.elementId === state.activeElementUUID
         );
         if (attrName in currentElement.commonStyle) {
-            currentElement.commonStyle[attrName] = value;
+          currentElement.commonStyle[attrName] = value;
         } else {
-            currentElement.propsValue[attrName] = value;
+          currentElement.propsValue[attrName] = value;
         }
       });
     }

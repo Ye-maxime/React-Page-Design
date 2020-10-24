@@ -4,10 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import * as actions from '../../store/editor/actions';
-import {
-  IProject,
-  EditorActionTypes,
-} from '../../store/editor/types';
+import { IProject, EditorActionTypes } from '../../store/editor/types';
 import { RootState } from '../../store/index';
 import { renderer } from '../../plugins/index';
 
@@ -34,7 +31,7 @@ const MainPanel: React.FunctionComponent<Props> = ({
     const activePage = projectData.pages.find(
       (page) => page.pageId === activePageUUID
     );
-    return activePage.elements;
+    return activePage?.elements || [];
   };
 
   return (

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {
-  IProject, IPage, EditorActionTypes,
-} from '../store/editor/types';
+import { IProject, IPage, EditorActionTypes } from '../store/editor/types';
 import ComponentLibs from '../components/left/ComponentLibs';
 import AttributesPanel from '../components/right/AttributesPanel';
 import MainPanel from '../components/middle/MainPanel';
+import Sider from '../components/left/Sider';
 
 interface ISideBarMenus {
   label: string;
@@ -33,8 +32,11 @@ type Props = IStateProps & State;
 //   projectData, activePageUUID, activeElementUUID, id,
 //   loading, showPreview, activeAttr, sidebarMenus,
 // }: Props) => (
-const Editor : React.FunctionComponent = () => (
+const Editor: React.FunctionComponent = () => (
   <div className="page-editor editor-wrapper">
+    {/* 最左侧菜单 */}
+    <Sider />
+
     {/* 左侧导航 */}
     <ComponentLibs />
 

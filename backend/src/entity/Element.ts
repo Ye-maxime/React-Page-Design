@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 import { CommonStyle } from './CommonStyle';
-// import { PropsValue } from './PropsValue';
+import { PropsValue } from './PropsValue';
 
 @Entity()
 export class Element {
@@ -19,6 +19,6 @@ export class Element {
   @Column((type) => CommonStyle)
   commonStyle: CommonStyle = new CommonStyle();
 
-  //   @Column((type) => PropsValue)
-  //   propsValue: PropsValue;
+  @Column((type) => PropsValue)
+  propsValue: PropsValue = new PropsValue();
 }

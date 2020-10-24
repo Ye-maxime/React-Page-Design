@@ -3,6 +3,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -22,19 +23,21 @@ module.exports = {
 
   module: {
     rules: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-      { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          'babel-loader',
+          { loader: 'ts-loader', options: { transpileOnly: true } }, // 关闭类型检查，即只进行转译, 类型检查交给 fork-ts-checker-webpack-plugin 在别的的线程中做
+        ],
+      },
 
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
 
       {
         test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
     ],
   },
@@ -59,9 +62,11 @@ module.exports = {
       // chunksSortMode: 'dependency',
     }),
     new CleanWebpackPlugin(), // 每次打包前清空dist目录
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin(), // fork 一个进程进行检查
+    new ForkTsCheckerWebpackPlugin({ async: false }),
   ],
-  devServer: { // 本地开发环境（webpack-dev-server）对应于frontend/package.json  start命令行
+  devServer: {
+    // 本地开发环境（webpack-dev-server）对应于frontend/package.json  start命令行
     // contentBase: path.join(__dirname, '/dist'),
     historyApiFallback: true,
     compress: true,

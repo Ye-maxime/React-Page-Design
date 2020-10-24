@@ -1,7 +1,7 @@
 // new 数据的模板
 import { cloneDeep, merge } from 'lodash';
 import { IBasicComponentConfig } from '../config/basicComponentConfig';
-import { IElement } from '../store/editor/types';
+import { IElement, IPage } from '../store/editor/types';
 import { createUUID } from '../common/utils';
 
 const dict: any = {
@@ -49,3 +49,11 @@ export const getElementConfig = (element: IBasicComponentConfig, extendStyle = {
   config.valueType = type;
   return config;
 };
+
+export const createNewPage = (): IPage => {
+    return {
+        pageId: createUUID(),
+        name: '新页面' + Math.floor(Math.random() * 10),
+        elements: []
+    };
+}

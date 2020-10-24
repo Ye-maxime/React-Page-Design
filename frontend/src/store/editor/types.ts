@@ -61,6 +61,7 @@ export const ADD_PAGE = 'ADD_PAGE';
 export const DELETE_PAGE = 'DELETE_PAGE';
 export const ADD_ELEMENT = 'ADD_ELEMENT';
 export const DELETE_ELEMENT = 'DELETE_ELEMENT';
+export const SET_ACTIVE_PAGE_UUID = 'SET_ACTIVE_PAGE_UUID';
 export const SET_ACTIVE_ELEMENT_UUID = 'SET_ACTIVE_ELEMENT_UUID';
 export const CHANGE_ATTR = 'CHANGE_ATTR';
 
@@ -84,6 +85,11 @@ interface DeleteElementAction {
   elementId: string;
 }
 
+interface SetActivePageUUID {
+  type: typeof SET_ACTIVE_PAGE_UUID;
+  pageId: string;
+}
+
 interface SetActiveElementUUID {
   type: typeof SET_ACTIVE_ELEMENT_UUID;
   elementId: string;
@@ -101,5 +107,6 @@ export type EditorActionTypes =
   | DeletePageAction
   | AddElementAction
   | DeleteElementAction
+  | SetActivePageUUID
   | SetActiveElementUUID
   | ChangeAttr;
