@@ -50,7 +50,7 @@ export const getElementConfig = (element: IBasicComponentConfig, extendStyle = {
   return config;
 };
 
-export const createNewPage = (): IPage => {
+export const getPageConfig = (): IPage => {
     return {
         pageId: createUUID(),
         name: '新页面' + Math.floor(Math.random() * 10),

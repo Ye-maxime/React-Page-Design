@@ -8,6 +8,9 @@ export class Element {
   id!: ObjectID;
 
   @Column()
+  elementId!: string;
+
+  @Column()
   elementName!: string;
 
   @Column()
@@ -15,6 +18,9 @@ export class Element {
 
   @Column()
   valueType!: string;
+
+  @Column()
+  events!: [];
 
   @Column((type) => CommonStyle)
   commonStyle: CommonStyle = new CommonStyle();

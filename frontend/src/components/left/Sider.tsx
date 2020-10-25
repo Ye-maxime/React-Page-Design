@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import axios from 'axios';
 import { Menu } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import * as actions from '../../store/editor/actions';
 import { EditorActionTypes, IPage } from '../../store/editor/types';
-import { createNewPage } from '../../dataModels/index';
+import { getPageConfig } from '../../dataModels/index';
 
 interface IDispatchProps {
   addPage: (newPage: IPage) => EditorActionTypes;
@@ -21,9 +22,19 @@ const Sider: React.FunctionComponent<Props> = ({
 }: Props) => {
   const handleClick = (menuInfo: MenuInfo): void => {
     if (menuInfo.key === '1') {
-      const pageData: IPage = createNewPage();
+      const pageData: IPage = getPageConfig();
       addPage(pageData);
       setActivePageUUID(pageData.pageId);
+
+      axios.post(
+        'http://localhost:4000/api/pages/add',
+        JSON.stringify(pageData),
+        {
+          headers: {
+            'content-type': 'application/json',
+          },
+        }
+      );
     }
   };
 

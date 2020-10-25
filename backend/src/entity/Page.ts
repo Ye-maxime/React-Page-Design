@@ -7,6 +7,9 @@ export class Page {
   id!: ObjectID;
 
   @Column()
+  pageId!: string;
+
+  @Column()
   name!: string;
 
   @Column((type) => Element)

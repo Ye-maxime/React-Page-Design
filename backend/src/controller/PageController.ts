@@ -17,29 +17,22 @@ export class PageController {
 
   @Get('/')
   getPages() {
-    return this.pageService.getAll();
+    return this.pageService.getPages();
   }
 
   @Get('/:id')
   getPage(@Param('id') id: number) {
-    return this.pageService.getOne(id);
+    return this.pageService.getPage(id);
   }
-
-  // @Post("/users")
-  // post(@Body() user: any) {
-  //    return "Saving user...";
-  // }
 
   @Post('/add')
   addPage(@Body() page: any) {
-    console.log('server add page = ', page);
-    return 'Saving a page...';
+    return this.pageService.addPage(page);
   }
 
-  @Put('/update/:id')
-  updatePage(@Param('id') id: number, @Body() page: any) {
-    console.log('server update page = ', page);
-    return 'Updating a page...';
+  @Post('/update/:id')
+  updatePage(@Param('id') id: string, @Body() page: any) {
+    return this.pageService.updatePage(id, page);
   }
 
   // @Delete("/users/:id")

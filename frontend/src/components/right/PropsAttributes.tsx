@@ -4,9 +4,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import * as actions from '../../store/editor/actions';
-import { EditorActionTypes, IElement, IRdpElement } from '../../store/editor/types';
+import {
+  EditorActionTypes,
+  IElement,
+  IRdpElement,
+} from '../../store/editor/types';
 import { RootState } from '../../store/index';
-import attrRdpComponentsMap from './attrRdpComponents/index';
+import attrRdpComponentsMap, {
+  attrRdpChineseMap,
+} from './attrRdpComponents/index';
 
 interface IStateProps {
   activeElement: IElement;
@@ -45,7 +51,7 @@ const PropsAttributes: React.FunctionComponent<Props> = ({
       {componentNames.length > 0 && <h3>特有属性</h3>}
       {componentNames.map((k) => (
         <div className="attr-item-edit-wrapper" key={activeElement.elementId}>
-          <p className="attr-item-title">{k.split('-')[2]} :</p>
+          <p className="attr-item-title">{attrRdpChineseMap.get(k)} :</p>
           <div className="attr-item-edit-input">
             {React.createElement<IRdpElement>(attrRdpComponentsMap.get(k), {
               element: activeElement,

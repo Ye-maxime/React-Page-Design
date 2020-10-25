@@ -5,23 +5,32 @@
     height: 100%;
     position: relative;
 
-    .editor-side-bar {
-        width: 20%;
-    }
+    .editor-container {
+        max-width: 100%;
 
-    // .editor-page-edit-wrapper {
-    //   width: 210px;
-    //   padding: 0 1px;
-    // }
-    .editor-main {
-        flex: 1;
-        background: #f0f2f5;
-        position: relative;
-    }
+        .control-bar {
+            width: 100%;
+            border-bottom: 2px solid hsl(0, 0%, 33%);
+        }
 
-    .el-attr-edit-wrapper {
-        width: 20%;
-        padding: 10px;
+        .editor-side-bar {
+            width: 20%;
+        }
+
+        // .editor-page-edit-wrapper {
+        //   width: 210px;
+        //   padding: 0 1px;
+        // }
+        .editor-main {
+            flex: 1;
+            background: #f0f2f5;
+            position: relative;
+        }
+
+        .el-attr-edit-wrapper {
+            width: 20%;
+            padding: 10px;
+        }
     }
 }
 
