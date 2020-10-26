@@ -18,6 +18,7 @@ interface IStateProps {
 
 interface IDispatchProps {
   setActiveElementUUID: (elementId: string) => EditorActionTypes;
+  changeAttr: (attrName: string, value: number | string) => EditorActionTypes;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -26,6 +27,7 @@ const MainPanel: React.FunctionComponent<Props> = ({
   projectData,
   activePageUUID,
   setActiveElementUUID,
+  changeAttr,
 }: Props) => {
   const pageElements = () => {
     const activePage = projectData.pages.find(
@@ -39,7 +41,7 @@ const MainPanel: React.FunctionComponent<Props> = ({
       <div className="editor-pane">
         <div className="editor-pane-inner">
           {pageElements().map((eleData) =>
-            renderer(eleData, setActiveElementUUID)
+            renderer(eleData, setActiveElementUUID, changeAttr)
           )}
         </div>
       </div>
@@ -56,6 +58,8 @@ const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   setActiveElementUUID: (elementId) =>
     dispatch(actions.setActiveElementUUID(elementId)),
+  changeAttr: (attrName, value) =>
+    dispatch(actions.changeAttr(attrName, value)),
 });
 
 export default connect<IStateProps, IDispatchProps, any>(

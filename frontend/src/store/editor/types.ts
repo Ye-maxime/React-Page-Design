@@ -14,6 +14,7 @@ export interface IPropsValue {
 }
 
 export interface IElement {
+  [key: string]: any; // 定义一个映射类型
   elementId?: string;
   elementName: string;
   value: string; // 绑定值

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import CSS from 'csstype';
-import { Button } from 'antd';
+import { Input } from 'antd';
 import { EditorActionTypes, IElement } from '../store/editor/types';
 
 export interface OwnProps {
   element: IElement;
   setActiveElementUUID: (elementId: string) => EditorActionTypes;
+  changeAttr: (attrName: string, value: number | string) => EditorActionTypes;
 }
 
 type Props = OwnProps;
@@ -13,6 +14,7 @@ type Props = OwnProps;
 const RpdButton: React.FunctionComponent<Props> = ({
   element,
   setActiveElementUUID,
+  changeAttr,
 }: Props) => {
   const [text, setText] = React.useState('按钮');
 
@@ -21,14 +23,19 @@ const RpdButton: React.FunctionComponent<Props> = ({
     width: `${element.commonStyle.width}px`,
   };
 
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+    changeAttr('value', event.target.value);
+  };
+
   return (
-    <Button
+    <Input
       className="rpd-button"
       style={style}
       onClick={() => setActiveElementUUID(element.elementId)}
-    >
-      {text}
-    </Button>
+      onChange={onChange}
+      value={text}
+    />
   );
 };
 

@@ -25,7 +25,8 @@ components.forEach((item) => {
 // https://www.pluralsight.com/guides/how-to-render-a-component-dynamically-based-on-a-json-config
 const renderer = (
   data: IElement,
-  setActiveElementUUID: (elementId: string) => EditorActionTypes
+  setActiveElementUUID: (elementId: string) => EditorActionTypes,
+  changeAttr: (attrName: string, value: number | string) => EditorActionTypes
 ) => {
   // TODO 减少不必要的渲染
   console.log('render !!!');
@@ -36,6 +37,7 @@ const renderer = (
         key: data.elementId,
         element: data,
         setActiveElementUUID: setActiveElementUUID,
+        changeAttr: changeAttr,
       }
     );
   }

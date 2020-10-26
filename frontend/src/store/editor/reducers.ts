@@ -102,6 +102,7 @@ const editorReducer = (
       };
     }
     case CHANGE_ATTR: {
+      // 改变元素本身的value 或 commonStyle里面的属性 或 propsValue里面的属性
       const { attrName, value } = action;
       const pageIndex = state.projectData.pages.findIndex(
         (p) => p.pageId === state.activePageUUID
@@ -110,7 +111,10 @@ const editorReducer = (
         const currentElement = draft.projectData.pages[pageIndex].elements.find(
           (ele) => ele.elementId === state.activeElementUUID
         );
-        if (attrName in currentElement.commonStyle) {
+
+        if (currentElement.hasOwnProperty(attrName)) {
+            currentElement[attrName] = value;
+        } else if (currentElement.commonStyle.hasOwnProperty(attrName)) {
           currentElement.commonStyle[attrName] = value;
         } else {
           currentElement.propsValue[attrName] = value;
