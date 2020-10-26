@@ -15,7 +15,9 @@ const AttrRpdPlaceholder: React.FunctionComponent<Props> = ({
   element,
   changeAttr,
 }: Props) => {
-  const [tempPlaceholder, setTempPlaceholder] = React.useState(element.propsValue.placeholder);
+  const [tempPlaceholder, setTempPlaceholder] = React.useState(
+    element.propsValue.placeholder
+  );
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTempPlaceholder(event.target.value);
@@ -24,7 +26,6 @@ const AttrRpdPlaceholder: React.FunctionComponent<Props> = ({
 
   return (
     <Input
-      className="rpd-text"
       placeholder="请输入文本内容"
       onChange={onChange}
       value={tempPlaceholder}

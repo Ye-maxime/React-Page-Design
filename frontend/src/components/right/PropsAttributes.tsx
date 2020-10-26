@@ -48,11 +48,11 @@ const PropsAttributes: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      {componentNames.length > 0 && <h3>特有属性</h3>}
+      {componentNames.length > 0 && <h6>特有属性</h6>}
       {componentNames.map((k) => (
         <div className="attr-item-edit-wrapper" key={activeElement.elementId}>
           <p className="attr-item-title">{attrRdpChineseMap.get(k)} :</p>
-          <div className="attr-item-edit-input">
+          <div>
             {React.createElement<IRdpElement>(attrRdpComponentsMap.get(k), {
               element: activeElement,
               changeAttr: changeAttr,

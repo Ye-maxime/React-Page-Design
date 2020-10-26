@@ -49,10 +49,10 @@ const CommonAttributes: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <h3>共有属性</h3>
+      <h6>共有属性</h6>
       <div className="attr-item-edit-wrapper">
         <p className="attr-item-title">字体大小 :</p>
-        <div className="col-2 attr-item-edit-input">
+        <div>
           <InputNumber
             min={6}
             max={32}
@@ -63,7 +63,7 @@ const CommonAttributes: React.FunctionComponent<Props> = ({
       </div>
       <div className="attr-item-edit-wrapper">
         <p className="attr-item-title">宽度 :</p>
-        <div className="col-2 attr-item-edit-input">
+        <div>
           <InputNumber
             min={0}
             max={300}

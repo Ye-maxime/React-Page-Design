@@ -16,9 +16,12 @@ const BasicComponent: React.FunctionComponent<Props> = ({
   handleClick,
 }: Props) => (
   <li>
-    <Button className="components-lib-item" onClick={() => handleClick(element)}>
-      <i className={`lib-item-icon ${element.icon}`} />
-      <p className="lib-item-title">{element.title}</p>
+    <Button
+      className="components-lib-item"
+      onClick={() => handleClick(element)}
+    >
+      <i className={element.icon} />
+      <p>{element.title}</p>
     </Button>
   </li>
 );

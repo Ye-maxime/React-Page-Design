@@ -38,14 +38,9 @@ const MainPanel: React.FunctionComponent<Props> = ({
     <div className="editor-main">
       <div className="editor-pane">
         <div className="editor-pane-inner">
-          <div className="editor-main">
-            <div className="page-preview-wrapper">
-              {pageElements().map((eleData) =>
-                renderer(eleData, setActiveElementUUID)
-              )}
-            </div>
-            <div className="page-wrapper-mask" />
-          </div>
+          {pageElements().map((eleData) =>
+            renderer(eleData, setActiveElementUUID)
+          )}
         </div>
       </div>
     </div>

@@ -40,7 +40,6 @@ const initialState: ProjectState = {
     ],
   },
   // 当前正在编辑的页面uuid
-  //   activePageUUID: '1',
   activePageUUID: '',
   // 画板中选中的元素uuid
   activeElementUUID: '',

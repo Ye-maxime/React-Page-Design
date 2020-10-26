@@ -44,9 +44,13 @@ const ControlBar: React.FunctionComponent<Props> = ({
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item text-center active" onClick={savePage}>
+          <li className="nav-item active" onClick={savePage}>
             <i className="far fa-save"></i>
-            <p>保存</p>
+            <p className="nav-item-text">保存</p>
+          </li>
+          <li className="nav-item">
+            <i className="fas fa-undo"></i>
+            <p className="nav-item-text">撤销</p>
           </li>
         </ul>
       </div>
