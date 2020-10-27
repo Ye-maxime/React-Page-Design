@@ -26,7 +26,7 @@ components.forEach((item) => {
 const renderer = (
   data: IElement,
   setActiveElementUUID: (elementId: string) => EditorActionTypes,
-  changeAttr: (attrName: string, value: number | string) => EditorActionTypes
+  changeAttr: (attrName: string, value: number | string) => EditorActionTypes,
 ) => {
   // TODO 减少不必要的渲染
   console.log('render !!!');

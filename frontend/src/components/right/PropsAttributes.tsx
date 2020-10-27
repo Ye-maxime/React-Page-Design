@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { throttle } from 'lodash';
 import * as actions from '../../store/editor/actions';
 import {
   EditorActionTypes,
@@ -20,6 +21,7 @@ interface IStateProps {
 
 interface IDispatchProps {
   changeAttr: (attrName: string, value: number | string) => EditorActionTypes;
+  addHistoryCache: () => EditorActionTypes;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -27,6 +29,7 @@ type Props = IStateProps & IDispatchProps;
 const PropsAttributes: React.FunctionComponent<Props> = ({
   activeElement,
   changeAttr,
+  addHistoryCache,
 }: Props) => {
   const currentElementProps = () => {
     const keyList = Object.keys(activeElement.propsValue);
@@ -56,6 +59,7 @@ const PropsAttributes: React.FunctionComponent<Props> = ({
             {React.createElement<IRdpElement>(attrRdpComponentsMap.get(k), {
               element: activeElement,
               changeAttr: changeAttr,
+              addHistoryCache: throttle(addHistoryCache, 3000),
             })}
           </div>
         </div>
@@ -71,6 +75,7 @@ const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   changeAttr: (attrName, value) =>
     dispatch(actions.changeAttr(attrName, value)),
+  addHistoryCache: () => dispatch(actions.addHistoryCache()),
 });
 
 export default connect<IStateProps, IDispatchProps, any>(

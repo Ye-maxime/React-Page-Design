@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable import/prefer-default-export */
 import produce from 'immer'; // https://www.pluralsight.com/guides/deeply-nested-objectives-redux
+import { cloneDeep } from 'lodash';
+
 import {
   ProjectState,
   ADD_PAGE,
@@ -11,6 +13,9 @@ import {
   SET_ACTIVE_ELEMENT_UUID,
   CHANGE_ATTR,
   EditorActionTypes,
+  ADD_HISTORY_CACHE,
+  UN_DO,
+  RE_DO,
 } from './types';
 
 // 对应 client/store/modules/editor.js 中的state
@@ -44,6 +49,10 @@ const initialState: ProjectState = {
   // 画板中选中的元素uuid
   activeElementUUID: '',
   activeElement: null,
+  // 历史操作数据用于undo redo
+  historyCache: [],
+  // redo undo 指针
+  currentHistoryIndex: -1,
 };
 
 const editorReducer = (
@@ -113,13 +122,59 @@ const editorReducer = (
         );
 
         if (currentElement.hasOwnProperty(attrName)) {
-            currentElement[attrName] = value;
+          currentElement[attrName] = value;
         } else if (currentElement.commonStyle.hasOwnProperty(attrName)) {
           currentElement.commonStyle[attrName] = value;
         } else {
           currentElement.propsValue[attrName] = value;
         }
+
+        // 记得更新activeElement！！！
+        draft.activeElement = currentElement;
       });
+    }
+    case ADD_HISTORY_CACHE: {
+      return produce(state, (draft) => {
+        if (state.currentHistoryIndex + 1 < state.historyCache.length) {
+          // 如果在此之前做过undo，则在插入新的history前 要删除currentHistoryIndex之后所有的记录
+          draft.historyCache.splice(state.currentHistoryIndex + 1);
+        }
+        draft.historyCache.push({
+          projectData: cloneDeep(state.projectData),
+          activePageUUID: state.activePageUUID,
+          activeElementUUID: state.activeElementUUID,
+          activeElement: state.activeElement,
+        });
+        // 限制undo 纪录步数，最多支持100步操作undo
+        draft.historyCache.splice(100);
+        draft.currentHistoryIndex++;
+      });
+    }
+    case UN_DO: {
+      if (state.currentHistoryIndex > 0) {
+        const prevState = state.historyCache[state.currentHistoryIndex - 1];
+        const copyState = cloneDeep(prevState);
+        return produce(state, (draft) => {
+          draft.projectData = cloneDeep(copyState.projectData);
+          draft.activePageUUID = copyState.activePageUUID;
+          draft.activeElementUUID = copyState.activeElementUUID;
+          draft.activeElement = copyState.activeElement;
+          draft.currentHistoryIndex--;
+        });
+      }
+    }
+    case RE_DO: {
+      if (state.historyCache.length - 1 > state.currentHistoryIndex) {
+        const prevState = state.historyCache[state.currentHistoryIndex + 1];
+        const copyState = cloneDeep(prevState);
+        return produce(state, (draft) => {
+          draft.projectData = cloneDeep(copyState.projectData);
+          draft.activePageUUID = copyState.activePageUUID;
+          draft.activeElementUUID = copyState.activeElementUUID;
+          draft.activeElement = copyState.activeElement;
+          draft.currentHistoryIndex++;
+        });
+      }
     }
     default:
       return state;

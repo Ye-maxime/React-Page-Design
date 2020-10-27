@@ -41,12 +41,20 @@ export interface IProject {
   pages: IPage[];
 }
 
+export interface IHistoryCache {
+  projectData: IProject;
+  activePageUUID: string;
+  activeElementUUID: string;
+  activeElement: IElement;
+}
+
 // 此接口用于定义 frontend/node_modules/@types/react/index.d.ts 里面React.createElement函数的props参数的类型P
 // props?: Attributes & P | null,
 export interface IRdpElement {
   element?: IElement;
   setActiveElementUUID?: (elementId: string) => EditorActionTypes;
   changeAttr?: (attrName: string, value: number | string) => EditorActionTypes;
+  addHistoryCache?: () => EditorActionTypes;
 }
 
 // State
@@ -55,6 +63,8 @@ export interface ProjectState {
   activePageUUID: string;
   activeElementUUID: string;
   activeElement: IElement;
+  historyCache: IHistoryCache[];
+  currentHistoryIndex: number;
 }
 
 // Actions & Action Creators
@@ -65,6 +75,9 @@ export const DELETE_ELEMENT = 'DELETE_ELEMENT';
 export const SET_ACTIVE_PAGE_UUID = 'SET_ACTIVE_PAGE_UUID';
 export const SET_ACTIVE_ELEMENT_UUID = 'SET_ACTIVE_ELEMENT_UUID';
 export const CHANGE_ATTR = 'CHANGE_ATTR';
+export const ADD_HISTORY_CACHE = 'ADD_HISTORY_CACHE';
+export const UN_DO = 'UN_DO';
+export const RE_DO = 'RE_DO';
 
 interface AddPageAction {
   type: typeof ADD_PAGE;
@@ -102,6 +115,18 @@ interface ChangeAttr {
   value: number | string;
 }
 
+interface AddHistoryCache {
+  type: typeof ADD_HISTORY_CACHE;
+}
+
+interface Undo {
+  type: typeof UN_DO;
+}
+
+interface Redo {
+  type: typeof RE_DO;
+}
+
 // eslint-disable-next-line max-len
 export type EditorActionTypes =
   | AddPageAction
@@ -110,4 +135,7 @@ export type EditorActionTypes =
   | DeleteElementAction
   | SetActivePageUUID
   | SetActiveElementUUID
-  | ChangeAttr;
+  | ChangeAttr
+  | AddHistoryCache
+  | Undo
+  | Redo;

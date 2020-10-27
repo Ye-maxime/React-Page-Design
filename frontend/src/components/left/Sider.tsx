@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import axios from 'axios';
+import { throttle } from 'lodash';
 import { Menu } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
 import { MenuInfo } from 'rc-menu/lib/interface';
@@ -12,6 +13,7 @@ import { getPageConfig } from '../../dataModels/index';
 interface IDispatchProps {
   addPage: (newPage: IPage) => EditorActionTypes;
   setActivePageUUID: (pageId: string) => EditorActionTypes;
+  addHistoryCache: () => EditorActionTypes;
 }
 
 type Props = IDispatchProps;
@@ -19,12 +21,14 @@ type Props = IDispatchProps;
 const Sider: React.FunctionComponent<Props> = ({
   addPage,
   setActivePageUUID,
+  addHistoryCache,
 }: Props) => {
   const handleClick = (menuInfo: MenuInfo): void => {
     if (menuInfo.key === '1') {
       const pageData: IPage = getPageConfig();
       addPage(pageData);
       setActivePageUUID(pageData.pageId);
+      throttle(addHistoryCache, 3000)();
 
       axios.post(
         'http://localhost:4000/api/pages/add',
@@ -57,6 +61,7 @@ const Sider: React.FunctionComponent<Props> = ({
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   addPage: (newPage) => dispatch(actions.addPage(newPage)),
   setActivePageUUID: (pageId) => dispatch(actions.setActivePageUUID(pageId)),
+  addHistoryCache: () => dispatch(actions.addHistoryCache()),
 });
 
 export default connect<any, IDispatchProps, any>(

@@ -10,6 +10,9 @@ import {
   SET_ACTIVE_ELEMENT_UUID,
   CHANGE_ATTR,
   EditorActionTypes,
+  ADD_HISTORY_CACHE,
+  UN_DO,
+  RE_DO,
 } from './types';
 
 export function addPage(newPage: IPage): EditorActionTypes {
@@ -62,5 +65,23 @@ export function changeAttr(
     type: CHANGE_ATTR,
     attrName,
     value,
+  };
+}
+
+export function addHistoryCache(): EditorActionTypes {
+  return {
+    type: ADD_HISTORY_CACHE,
+  };
+}
+
+export function undo(): EditorActionTypes {
+  return {
+    type: UN_DO,
+  };
+}
+
+export function redo(): EditorActionTypes {
+  return {
+    type: RE_DO,
   };
 }

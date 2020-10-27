@@ -1,19 +1,28 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Dispatch } from 'redux';
+import * as actions from '../../store/editor/actions';
 import { RootState } from '../../store/index';
-import { IProject } from '../../store/editor/types';
+import { EditorActionTypes, IProject } from '../../store/editor/types';
 
 interface IStateProps {
   activePageUUID: string;
   projectData: IProject;
 }
 
-type Props = IStateProps;
+interface IDispatchProps {
+  undo: () => EditorActionTypes;
+  redo: () => EditorActionTypes;
+}
+
+type Props = IStateProps & IDispatchProps;
 
 const ControlBar: React.FunctionComponent<Props> = ({
   activePageUUID,
   projectData,
+  undo,
+  redo,
 }: Props) => {
   const savePage = () => {
     const pageData = projectData.pages.find((p) => p.pageId === activePageUUID);
@@ -26,6 +35,14 @@ const ControlBar: React.FunctionComponent<Props> = ({
         },
       }
     );
+  };
+
+  const undoPage = () => {
+    undo();
+  };
+
+  const redoPage = () => {
+    redo();
   };
 
   return (
@@ -48,9 +65,13 @@ const ControlBar: React.FunctionComponent<Props> = ({
             <i className="far fa-save"></i>
             <p className="nav-item-text">保存</p>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" onClick={undoPage}>
             <i className="fas fa-undo"></i>
             <p className="nav-item-text">撤销</p>
+          </li>
+          <li className="nav-item" onClick={redoPage}>
+            <i className="fas fa-redo"></i>
+            <p className="nav-item-text">重做</p>
           </li>
         </ul>
       </div>
@@ -63,7 +84,12 @@ const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
   projectData: state.editor.projectData,
 });
 
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  undo: () => dispatch(actions.undo()),
+  redo: () => dispatch(actions.redo()),
+});
+
 export default connect<IStateProps, any, any>(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ControlBar);

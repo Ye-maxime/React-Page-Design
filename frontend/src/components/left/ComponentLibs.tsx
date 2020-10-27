@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { throttle } from 'lodash';
 import * as actions from '../../store/editor/actions';
 import BasicComponent from './BasicComponent';
 import { EditorActionTypes, IElement } from '../../store/editor/types';
@@ -15,6 +16,7 @@ import { getElementConfig } from '../../dataModels/index';
 interface IDispatchProps {
   addElement: (newElement: IElement) => EditorActionTypes;
   setActiveElementUUID: (elementId: string) => EditorActionTypes;
+  addHistoryCache: () => EditorActionTypes;
 }
 
 type Props = IDispatchProps;
@@ -22,12 +24,14 @@ type Props = IDispatchProps;
 const ComponentLibs: React.FunctionComponent<Props> = ({
   addElement,
   setActiveElementUUID,
+  addHistoryCache,
 }: Props) => {
   // 点击基本组件按钮 编辑页面插入新节点
   const handleClick = (element: IBasicComponentConfig): void => {
     const elementData: IElement = getElementConfig(element, { zIndex: 2 });
     addElement(elementData);
     setActiveElementUUID(elementData.elementId);
+    throttle(addHistoryCache, 3000)();
   };
 
   return (
@@ -53,6 +57,7 @@ const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   addElement: (newElement) => dispatch(actions.addElement(newElement)),
   setActiveElementUUID: (elementId) =>
     dispatch(actions.setActiveElementUUID(elementId)),
+  addHistoryCache: () => dispatch(actions.addHistoryCache()),
 });
 
 export default connect<any, IDispatchProps, any>(

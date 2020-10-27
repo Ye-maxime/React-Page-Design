@@ -27,6 +27,7 @@ const RpdText: React.FunctionComponent<Props> = ({
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
     changeAttr('value', event.target.value);
+    // 不考虑这里也addHistoryCache 否则会太多action
   };
 
   return (

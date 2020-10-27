@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { throttle } from 'lodash';
 import { InputNumber } from 'antd';
 import * as actions from '../../store/editor/actions';
 import { EditorActionTypes, IElement } from '../../store/editor/types';
@@ -13,6 +14,7 @@ interface IStateProps {
 
 interface IDispatchProps {
   changeAttr: (attrName: string, value: number | string) => EditorActionTypes;
+  addHistoryCache: () => EditorActionTypes;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -20,6 +22,7 @@ type Props = IStateProps & IDispatchProps;
 const CommonAttributes: React.FunctionComponent<Props> = ({
   activeElement,
   changeAttr,
+  addHistoryCache,
 }: Props) => {
   const [fontSizeValue, setFontSizeValue] = React.useState(
     activeElement.commonStyle.fontSize
@@ -44,6 +47,7 @@ const CommonAttributes: React.FunctionComponent<Props> = ({
       map.get(attrName)(value);
       // reducer 出去
       changeAttr(attrName, value);
+      throttle(addHistoryCache, 3000)();
     };
   };
 
@@ -83,6 +87,7 @@ const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   changeAttr: (attrName, value) =>
     dispatch(actions.changeAttr(attrName, value)),
+  addHistoryCache: () => dispatch(actions.addHistoryCache()),
 });
 
 export default connect<IStateProps, IDispatchProps, any>(
