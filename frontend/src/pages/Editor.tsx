@@ -1,61 +1,79 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import * as actions from '../store/editor/actions';
+import { RouteComponentProps } from 'react-router';
 import { RootState } from '../store/index';
-import { IProject, IPage, EditorActionTypes } from '../store/editor/types';
-import ComponentLibs from '../components/left/ComponentLibs';
-import AttributesPanel from '../components/right/AttributesPanel';
-import MainPanel from '../components/middle/MainPanel';
-import Sider from '../components/left/Sider';
-import ControlBar from '../components/middle/ControlBar';
+import { EditorActionTypes } from '../store/editor/types';
+import ComponentLibs from '../components/editor/left/ComponentLibs';
+import AttributesPanel from '../components/editor/right/AttributesPanel';
+import MainPanel from '../components/editor/middle/MainPanel';
+import Sider from '../components/editor/left/Sider';
+import ControlBar from '../components/editor/middle/ControlBar';
 
-// interface ISideBarMenus {
-//   label: string;
-//   value: string;
-//   elementUiIcon: string;
-// }
-
-interface IStateProps {
-  //   projectData: IProject;
-  activePageUUID: string;
-  //   activeElementUUID: string;
+// 路由/editor/:projectId 对应的参数projectId
+interface MatchParams {
+  projectId: string;
 }
 
-// interface State {
-//   id: string; // 当前页面id
-//   loading: boolean;
-//   showPreview: boolean;
-//   activeAttr: string;
-//   sidebarMenus: ISideBarMenus[];
-// }
+export interface OwnProps extends RouteComponentProps<MatchParams> {}
 
-type Props = IStateProps;
+interface IStateProps {
+  activePageUUID: string;
+}
 
-const Editor: React.FunctionComponent<Props> = ({ activePageUUID }: Props) => (
-  <div className="page-editor editor-wrapper">
-    {/* 最左侧菜单 */}
-    <Sider />
+interface IDispatchProps {
+  fetchProjectData: (projectId: string) => EditorActionTypes;
+}
 
-    {activePageUUID && (
-      <div className="container editor-container">
-        <div className="row">
-          {/* 中间上方按钮栏 */}
-          <ControlBar />
+type Props = OwnProps & IStateProps & IDispatchProps;
+
+const Editor: React.FunctionComponent<Props> = ({
+  activePageUUID,
+  match,
+  fetchProjectData,
+}: Props) => {
+  React.useEffect(() => {
+    fetchProjectData(match.params.projectId);
+  }, [match.params.projectId]);
+
+  return (
+    <div className="editor-wrapper">
+      {/* 最左侧菜单 */}
+      {/* <Sider /> */}
+      {activePageUUID && (
+        <div className="container editor-container">
+          <div className="row">
+            {/* 中间上方按钮栏 */}
+            <ControlBar />
+          </div>
+          <div className="row">
+            {/* 左侧导航 */}
+            <ComponentLibs />
+            {/* 页面编辑区域 */}
+            <MainPanel />
+            {/* 属性编辑区域 */}
+            <AttributesPanel />
+          </div>
         </div>
-        <div className="row">
-          {/* 左侧导航 */}
-          <ComponentLibs />
-          {/* 页面编辑区域 */}
-          <MainPanel />
-          {/* 属性编辑区域 */}
-          <AttributesPanel />
-        </div>
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
+};
 
-const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
+const mapStateToProps = (
+  state: RootState,
+  ownProps: OwnProps
+): IStateProps => ({
   activePageUUID: state.editor.activePageUUID,
 });
 
-export default connect<IStateProps, any, any>(mapStateToProps, null)(Editor);
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  fetchProjectData: (projectId) =>
+    dispatch(actions.fetchProjectData(projectId)),
+});
+
+export default connect<IStateProps, IDispatchProps, OwnProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(Editor);

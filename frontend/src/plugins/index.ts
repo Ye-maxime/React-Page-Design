@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import * as React from 'react';
 import {
   EditorActionTypes,
@@ -24,20 +23,17 @@ components.forEach((item) => {
 
 // https://www.pluralsight.com/guides/how-to-render-a-component-dynamically-based-on-a-json-config
 const renderer = (
-  data: IElement,
-  setActiveElementUUID: (elementId: string) => EditorActionTypes,
-  changeAttr: (attrName: string, value: number | string) => EditorActionTypes,
+  data: IElement
+  //   setActiveElementUUID: (elementId: string) => EditorActionTypes,
+  //   changeAttr: (attrName: string, value: number | string) => EditorActionTypes
 ) => {
-  // TODO 减少不必要的渲染
-  console.log('render !!!');
   if (typeof RpdRegisterComponentsObject[data.elementName] !== 'undefined') {
     return React.createElement<IRdpElement>(
       RpdRegisterComponentsObject[data.elementName],
       {
-        key: data.elementId,
         element: data,
-        setActiveElementUUID: setActiveElementUUID,
-        changeAttr: changeAttr,
+        // setActiveElementUUID: setActiveElementUUID,
+        // changeAttr: changeAttr,
       }
     );
   }

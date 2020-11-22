@@ -6,7 +6,7 @@ export interface IBasicComponentConfig {
   icon: string; // 值类型
   defaultValue: string;
   valueType: string;
-  defaultStyle?: ICommonStyle;
+  defaultStyle: Partial<ICommonStyle>;
   propsValue?: IPropsValue;
 }
 
@@ -25,6 +25,7 @@ const componentsList: IBasicComponentConfig[] = [
       height: 40,
     },
     propsValue: {
+      text: '文字',
       placeholder: '这是一段文字',
     },
   },
@@ -39,7 +40,9 @@ const componentsList: IBasicComponentConfig[] = [
       width: 80,
       height: 40,
     },
-    propsValue: {},
+    propsValue: {
+      text: '按钮',
+    },
   },
 ];
 

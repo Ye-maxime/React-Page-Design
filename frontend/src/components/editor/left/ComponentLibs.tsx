@@ -5,13 +5,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { throttle } from 'lodash';
-import * as actions from '../../store/editor/actions';
+import * as actions from '@store/editor/actions';
 import BasicComponent from './BasicComponent';
-import { EditorActionTypes, IElement } from '../../store/editor/types';
+import { EditorActionTypes, IElement } from '@store/editor/types';
 import componentsList, {
   IBasicComponentConfig,
-} from '../../config/basicComponentConfig';
-import { getElementConfig } from '../../dataModels/index';
+} from '@config/basicComponentConfig';
+import { getElementConfig } from '@dataModels/index';
 
 interface IDispatchProps {
   addElement: (newElement: IElement) => EditorActionTypes;

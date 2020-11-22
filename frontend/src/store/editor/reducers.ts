@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash';
 
 import {
   ProjectState,
+  ADD_PROJECT,
   ADD_PAGE,
   DELETE_PAGE,
   ADD_ELEMENT,
@@ -16,43 +17,49 @@ import {
   ADD_HISTORY_CACHE,
   UN_DO,
   RE_DO,
+  RESIZE_ELEMENT,
+  PROJECT_FAILURE,
+  ADD_PROJECT_SUCCESS,
+  IProject,
+  SET_PROJECT_DATA,
+  FETCH_PROJECT_DATA,
 } from './types';
 
-// 对应 client/store/modules/editor.js 中的state
 const initialState: ProjectState = {
-  projectData: {
-    projectId: '1',
-    name: 'project1',
-    title: '未命名场景',
-    description: '',
-    script: '',
-    width: 500,
-    height: 500,
-    pages: [
-      //   {
-      //     pageId: '1',
-      //     name: 'page1',
-      //     elements: [
-      //       {
-      //         elementId: '1',
-      //         elementName: '按钮',
-      //         value: '点我', // 绑定值
-      //         valueType: 'string', // 值类型
-      //         events: [],
-      //       },
-      //     ],
-      //   },
-    ],
-  },
+  //   projectData: {
+  //     projectId: '1',
+  //     name: 'project1',
+  //     title: '未命名场景',
+  //     description: '',
+  //     script: '',
+  //     width: 500,
+  //     height: 500,
+  //     pages: [
+  //       {
+  //         pageId: '1',
+  //         name: 'page1',
+  //         elements: [
+  //           {
+  //             elementId: '1',
+  //             elementName: '按钮',
+  //             value: '点我', // 绑定值
+  //             valueType: 'string', // 值类型
+  //             events: [],
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  projectData: null,
   // 当前正在编辑的页面uuid
   activePageUUID: '',
   // 画板中选中的元素uuid
   activeElementUUID: '',
-  activeElement: null,
   // 历史操作数据用于undo redo
   historyCache: [],
   // redo undo 指针
   currentHistoryIndex: -1,
+  loading: false,
 };
 
 const editorReducer = (
@@ -60,23 +67,40 @@ const editorReducer = (
   action: EditorActionTypes
 ): ProjectState => {
   switch (action.type) {
+    case ADD_PROJECT:
+      return { ...state, loading: true };
+    case ADD_PROJECT_SUCCESS:
+      const newProject: IProject = action.newProject;
+      console.log('ADD_PROJECT_SUCCESS ', newProject);
+      return {
+        ...state, // ...state 必须写前面才会被覆盖！！！
+        projectData: newProject,
+        activePageUUID: newProject.pages[0].pageId,
+        activeElementUUID: '',
+        historyCache: [],
+        currentHistoryIndex: -1,
+        loading: false,
+      };
+    case PROJECT_FAILURE:
+      console.log('ADD_PROJECT_FAILURE ', action.error);
+      return { ...state, loading: false };
     case ADD_PAGE:
       return {
+        ...state,
         projectData: {
           ...state.projectData,
-          pages: state.projectData.pages.push(action.pageData),
+          pages: state.projectData.pages.concat(action.newPage),
         },
-        ...state,
       };
     case DELETE_PAGE:
       return {
+        ...state,
         projectData: {
           ...state.projectData,
           pages: state.projectData.pages.filter(
             (page) => page.pageId !== action.pageId
           ),
         },
-        ...state,
       };
     case ADD_ELEMENT: {
       const pageIndex = state.projectData.pages.findIndex(
@@ -93,24 +117,13 @@ const editorReducer = (
       };
     }
     case SET_ACTIVE_ELEMENT_UUID: {
-      const pageIndex = state.projectData.pages.findIndex(
-        (p) => p.pageId === state.activePageUUID
-      );
-      const currentElement = state.projectData.pages[pageIndex].elements.find(
-        (ele) => ele.elementId === action.elementId
-      );
-
-      console.log(
-        'SET_ACTIVE_ELEMENT_UUID state.activeElement= ',
-        JSON.stringify(currentElement)
-      );
       return {
         ...state,
-        activeElement: currentElement,
         activeElementUUID: action.elementId,
       };
     }
     case CHANGE_ATTR: {
+      console.log('CHANGE_ATTR ', action.attrName);
       // 改变元素本身的value 或 commonStyle里面的属性 或 propsValue里面的属性
       const { attrName, value } = action;
       const pageIndex = state.projectData.pages.findIndex(
@@ -128,9 +141,6 @@ const editorReducer = (
         } else {
           currentElement.propsValue[attrName] = value;
         }
-
-        // 记得更新activeElement！！！
-        draft.activeElement = currentElement;
       });
     }
     case ADD_HISTORY_CACHE: {
@@ -143,11 +153,22 @@ const editorReducer = (
           projectData: cloneDeep(state.projectData),
           activePageUUID: state.activePageUUID,
           activeElementUUID: state.activeElementUUID,
-          activeElement: state.activeElement,
         });
         // 限制undo 纪录步数，最多支持100步操作undo
         draft.historyCache.splice(100);
         draft.currentHistoryIndex++;
+      });
+    }
+    case RESIZE_ELEMENT: {
+      const pageIndex = state.projectData.pages.findIndex(
+        (p) => p.pageId === state.activePageUUID
+      );
+      return produce(state, (draft) => {
+        const currentElement = draft.projectData.pages[pageIndex].elements.find(
+          (ele) => ele.elementId === state.activeElementUUID
+        );
+
+        currentElement.commonStyle = action.commonStyle;
       });
     }
     case UN_DO: {
@@ -158,9 +179,13 @@ const editorReducer = (
           draft.projectData = cloneDeep(copyState.projectData);
           draft.activePageUUID = copyState.activePageUUID;
           draft.activeElementUUID = copyState.activeElementUUID;
-          draft.activeElement = copyState.activeElement;
           draft.currentHistoryIndex--;
         });
+      } else {
+        // 返回原来状态 ！！！！
+        return {
+          ...state,
+        };
       }
     }
     case RE_DO: {
@@ -171,10 +196,32 @@ const editorReducer = (
           draft.projectData = cloneDeep(copyState.projectData);
           draft.activePageUUID = copyState.activePageUUID;
           draft.activeElementUUID = copyState.activeElementUUID;
-          draft.activeElement = copyState.activeElement;
           draft.currentHistoryIndex++;
         });
+      } else {
+        // 返回原来状态 ！！！！
+        return {
+          ...state,
+        };
       }
+    }
+    case FETCH_PROJECT_DATA: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case SET_PROJECT_DATA: {
+      const projectData = action.projectData;
+      return {
+        ...state,
+        loading: false,
+        projectData: projectData,
+        activePageUUID: projectData.pages[0].pageId,
+        activeElementUUID: '',
+        historyCache: [],
+        currentHistoryIndex: -1,
+      };
     }
     default:
       return state;

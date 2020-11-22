@@ -1,7 +1,6 @@
-// 对应client/pages/editor/components/attr-configure/attr-edit.vue
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { RootState } from '../../store/index';
+import { RootState } from '@store/index';
 import CommonAttributes from './CommonAttributes';
 import PropsAttributes from './PropsAttributes';
 

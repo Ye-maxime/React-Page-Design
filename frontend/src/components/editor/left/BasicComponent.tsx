@@ -2,7 +2,7 @@
 // 左侧导航栏里的基础组件中的单个组件
 import * as React from 'react';
 import { Button } from 'antd';
-import { IBasicComponentConfig } from '../../config/basicComponentConfig';
+import { IBasicComponentConfig } from '@config/basicComponentConfig';
 
 export interface OwnProps {
   element: IBasicComponentConfig;

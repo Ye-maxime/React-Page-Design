@@ -1,10 +1,10 @@
 // new 数据的模板
 import { cloneDeep, merge } from 'lodash';
 import { IBasicComponentConfig } from '../config/basicComponentConfig';
-import { IElement, IPage } from '../store/editor/types';
+import { ICommonStyle, IElement, IPage, IProject } from '../store/editor/types';
 import { createUUID } from '../common/utils';
 
-const dict: any = {
+const dict: Record<string, any> = {
   String: '',
   Array: [],
   Object: {},
@@ -15,7 +15,7 @@ const dict: any = {
 
 // 元素配置信息字段
 export const elementConfig: IElement = {
-  // elementId: '2',
+  elementId: '',
   elementName: '',
   value: '', // 绑定值
   valueType: 'String', // 值类型
@@ -26,17 +26,42 @@ export const elementConfig: IElement = {
     color: '#000000',
     zIndex: 1,
     fontSize: 16,
+    top: 20,
+    left: 20,
+    rotate: 0,
   }, // 公共样式
   propsValue: {}, // 属性参数 都来自于以Rdp开头的组件中各自需要的某些属性
 };
 
-export const getElementConfig = (element: IBasicComponentConfig, extendStyle = {}): IElement => {
+// 页面配置信息字段
+export const pageConfig: IPage = {
+  pageId: '',
+  name: '',
+  elements: [],
+};
+
+// 项目配置信息字段
+export const projectConfig: IProject = {
+  projectId: '',
+  name: '',
+  title: '未命名场景',
+  description: '可视化编辑器',
+  script: '',
+  width: 375,
+  height: 644,
+  pages: [],
+};
+
+export const getElementConfig = (
+  element: IBasicComponentConfig,
+  extendStyle = {}
+): IElement => {
   const elementData: IBasicComponentConfig = cloneDeep(element);
   const type = elementData.valueType || 'String'; // 默认string类型
   const elementConfigData = cloneDeep(elementConfig);
   const config: IElement = {
-    elementId: createUUID(),
     ...elementConfigData,
+    elementId: createUUID(),
     elementName: elementData.elementName,
     // propsValue: deepClone(elementData.needProps || {}),
   };
@@ -51,9 +76,61 @@ export const getElementConfig = (element: IBasicComponentConfig, extendStyle = {
 };
 
 export const getPageConfig = (): IPage => {
-    return {
-        pageId: createUUID(),
-        name: '新页面' + Math.floor(Math.random() * 10),
-        elements: []
-    };
-}
+  //   return {
+  //     pageId: createUUID(),
+  //     name: '新页面' + Math.floor(Math.random() * 10),
+  //     elements: [],
+  //   };
+  return {
+    ...cloneDeep(pageConfig),
+    pageId: createUUID(),
+    name: '新页面' + Math.floor(Math.random() * 100),
+  };
+};
+
+export const getProjectConfig = (): IProject => {
+  const project = cloneDeep(projectConfig);
+  project.projectId = createUUID();
+  project.name = '新项目' + Math.floor(Math.random() * 100);
+  const onePage = getPageConfig();
+  project.pages.push(onePage);
+  return project;
+};
+
+/**
+ * 获取元素样式
+ * @param styleObj
+ * @param scalePoint 缩放比例
+ */
+export const getCommonStyle = (styleObj: ICommonStyle, scalingRatio = 1) => {
+  let needUnitStr = [
+    'width',
+    'height',
+    'top',
+    'left',
+    'paddingTop',
+    'paddingLeft',
+    'paddingRight',
+    'paddingBottom',
+    'marginTop',
+    'marginLeft',
+    'marginRight',
+    'marginBottom',
+    'borderWidth',
+    'fontSize',
+    'borderRadius',
+    'letterSpacing',
+  ];
+
+  let style: Record<string, any> = {};
+  const keyList = Object.keys(styleObj);
+  for (let key of keyList) {
+    if (needUnitStr.includes(key)) {
+      style[key] = styleObj[key] * scalingRatio + 'px';
+    } else {
+      style[key] = styleObj[key];
+    }
+  }
+  style.transform = `rotate(${style.rotate}deg)`;
+  return style;
+};

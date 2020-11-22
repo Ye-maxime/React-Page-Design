@@ -1,46 +1,27 @@
 import * as React from 'react';
-import { Input } from 'antd';
-import CSS from 'csstype';
-import { EditorActionTypes, IElement } from '../store/editor/types';
+import { isEqual } from 'lodash';
+import { IElement } from '../store/editor/types';
 
 export interface OwnProps {
   element: IElement;
-  setActiveElementUUID: (elementId: string) => EditorActionTypes;
-  changeAttr: (attrName: string, value: number | string) => EditorActionTypes;
 }
 
 type Props = OwnProps;
 
-const RpdText: React.FunctionComponent<Props> = ({
-  element,
-  setActiveElementUUID,
-  changeAttr,
-}: Props) => {
-  const [text, setText] = React.useState('');
-
-  // https://fettblog.eu/typescript-react/styles/
-  const style: CSS.Properties = {
-    fontSize: `${element.commonStyle.fontSize}px`,
-    width: `${element.commonStyle.width}px`,
-  };
-
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
-    changeAttr('value', event.target.value);
-    // 不考虑这里也addHistoryCache 否则会太多action
-  };
-
-  return (
-    <Input
-      className="rpd-text"
-      placeholder={element.propsValue.placeholder}
-      style={style}
-      onClick={() => setActiveElementUUID(element.elementId)}
-      onChange={onChange}
-      value={text}
-    />
-  );
-};
+const RpdText: React.FunctionComponent<Props> = React.memo(
+  ({ element }: Props) => {
+    console.log('render RpdText!!!');
+    return (
+      <div className="rpd-text" placeholder={element.propsValue.placeholder}>
+        {element.value}
+      </div>
+    );
+  },
+  (prevProps, nextProps) =>
+    // 浅比较当前element 里面其commonStyle 和 propsValue中的所有属性是否相等
+    isEqual(prevProps.element.commonStyle, nextProps.element.commonStyle) &&
+    isEqual(prevProps.element.propsValue, nextProps.element.propsValue)
+);
 
 export default {
   name: 'rpd-text',

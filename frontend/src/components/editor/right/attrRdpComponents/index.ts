@@ -1,11 +1,8 @@
 import AttrRdpPlaceholder from './AttrRdpPlaceholder';
+import AttrRdpText from './AttrRdpText';
 
 const attrRdpComponentsMap = new Map();
 attrRdpComponentsMap.set(AttrRdpPlaceholder.name, AttrRdpPlaceholder.component);
-
-export const attrRdpChineseMap = new Map().set(
-  AttrRdpPlaceholder.name,
-  '占位符'
-);
+attrRdpComponentsMap.set(AttrRdpText.name, AttrRdpText.component);
 
 export default attrRdpComponentsMap;

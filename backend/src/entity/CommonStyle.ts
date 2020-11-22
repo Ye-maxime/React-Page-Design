@@ -15,4 +15,13 @@ export class CommonStyle {
 
   @Column()
   color!: string;
+
+  @Column()
+  top!: number;
+
+  @Column()
+  left!: number;
+
+  @Column()
+  rotate!: number;
 }

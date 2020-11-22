@@ -1,5 +1,5 @@
 import {
-  Controller,
+  JsonController,
   Param,
   Body,
   Get,
@@ -7,10 +7,11 @@ import {
   Put,
   Delete,
 } from 'routing-controllers';
+import { Page } from '../entity/Page';
 import { PageService } from '../service/PageService';
 
 // https://github.com/typestack/routing-controllers
-@Controller('/pages')
+@JsonController('/pages')
 export class PageController {
   // 依赖注入
   constructor(private pageService: PageService) {}
@@ -26,12 +27,12 @@ export class PageController {
   }
 
   @Post('/add')
-  addPage(@Body() page: any) {
+  addPage(@Body() page: Page) {
     return this.pageService.addPage(page);
   }
 
   @Post('/update/:id')
-  updatePage(@Param('id') id: string, @Body() page: any) {
+  updatePage(@Param('id') id: string, @Body() page: Page) {
     return this.pageService.updatePage(id, page);
   }
 

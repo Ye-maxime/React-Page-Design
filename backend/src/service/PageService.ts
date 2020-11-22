@@ -14,18 +14,20 @@ export class PageService {
     return 'This action returns page #' + id;
   }
 
-  async addPage(page: any) {
+  async addPage(page: Page) {
     // const newPage = new Page();
     // newPage.pageId = page.pageId;
     // newPage.name = page.name;
     // newPage.elements = [];
 
     const pageRepository = getMongoRepository(Page);
-    const res = await pageRepository.save(page);
+    const newPage = await pageRepository.save(page);
+    // 过滤掉id
+    const { id, ...res } = newPage;
     return res;
   }
 
-  async updatePage(id: string, page: any) {
+  async updatePage(id: string, page: Page) {
     const pageRepository = getMongoRepository(Page);
     const res = await pageRepository.update({ pageId: id }, page);
     // const res = await pageRepository.update(

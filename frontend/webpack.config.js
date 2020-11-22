@@ -11,6 +11,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'), // 会自动打包成一个bundle.js文件 并在index.html里面引用
+    publicPath: '/', // 项目中引用css，js，img等资源时候的一个基础路径
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -19,6 +20,16 @@ module.exports = {
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx', '.js', '.json'],
+    // 文件路径别名, 这里设置好后 还得在tsconfig.json里面设置 https://juejin.im/post/6868472838613893127
+    alias: {
+      '@': path.resolve('./src'),
+      '@store': path.resolve(__dirname, './src/store'),
+      '@selectors': path.resolve(__dirname, './src/selectors'),
+      '@config': path.resolve(__dirname, './src/config'),
+      '@dataModels': path.resolve(__dirname, './src/dataModels'),
+      '@plugins': path.resolve(__dirname, './src/plugins'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+    },
   },
 
   module: {
@@ -38,6 +49,21 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+
+      // images
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images',
+              publicPath: 'images',
+            },
+          },
+        ],
       },
     ],
   },

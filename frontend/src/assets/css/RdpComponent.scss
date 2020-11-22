@@ -1,13 +1,25 @@
 .rpd-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
     background-color: #24a0ed;
     color: white;
-    margin: 10px;
     border-radius: 6px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+
 }
 
 .rpd-text {
-    margin: 10px;
+    width: inherit;
+    height: inherit;
+    border: 1px solid;
+    padding: 4px;
+
+    &:empty:before {
+        content: attr(placeholder);
+        color: gray;
+    }
 }

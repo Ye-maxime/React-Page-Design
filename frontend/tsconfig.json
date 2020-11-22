@@ -2,11 +2,33 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es2020",
+        "noImplicitAny": true, // 在表达式和声明上有隐含的 any类型时报错。
+        "module": "commonjs", // 生成代码的模板标准 https://medium.com/@tommedema/typescript-confusion-tsconfig-json-module-moduleresolution-target-lib-explained-65db2c44b491
+        "target": "es2020", // 目标语言的版本
         "jsx": "preserve",
         "esModuleInterop": true,
+        "suppressImplicitAnyIndexErrors": true, // 阻止 --noImplicitAny对缺少索引签名的索引对象报错
+        "baseUrl": "src",
+        "paths": {
+            "@store/*": [
+                "./store/*" // paths是相对于"baseUrl"进行解析 因为baseUrl为src 所以假定当前目录定位在src文件夹
+            ],
+            "@selectors/*": [
+                "./selectors/*"
+            ],
+            "@config/*": [
+                "./config/*"
+            ],
+            "@dataModels/*": [
+                "./dataModels/*"
+            ],
+            "@plugins/*": [
+                "./plugins/*"
+            ],
+            "@assets/*": [
+                "./assets/*"
+            ],
+        },
     },
     "include": [
         "./src/**/*"

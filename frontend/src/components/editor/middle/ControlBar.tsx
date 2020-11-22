@@ -2,13 +2,17 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import * as actions from '../../store/editor/actions';
-import { RootState } from '../../store/index';
-import { EditorActionTypes, IProject } from '../../store/editor/types';
+import { Link } from 'react-router-dom';
+import * as actions from '@store/editor/actions';
+import { RootState } from '@store/index';
+import { EditorActionTypes, IProject } from '@store/editor/types';
+import { canUndo, canRedo } from '@selectors/index';
+import logo from '@assets/images/logo.png';
 
 interface IStateProps {
-  activePageUUID: string;
   projectData: IProject;
+  canUndo: boolean;
+  canRedo: boolean;
 }
 
 interface IDispatchProps {
@@ -19,22 +23,21 @@ interface IDispatchProps {
 type Props = IStateProps & IDispatchProps;
 
 const ControlBar: React.FunctionComponent<Props> = ({
-  activePageUUID,
   projectData,
+  canUndo,
+  canRedo,
   undo,
   redo,
 }: Props) => {
-  const savePage = () => {
-    const pageData = projectData.pages.find((p) => p.pageId === activePageUUID);
+  const saveProject = () => {
     axios.post(
-      `http://localhost:4000/api/pages/update/${activePageUUID}`,
-      JSON.stringify(pageData),
-      {
-        headers: {
-          'content-type': 'application/json',
-        },
-      }
+      `http://localhost:4000/api/projects/update/${projectData.projectId}`,
+      projectData // 不需要JSON.stringify 默认已经是application/json形式
     );
+    // fetch(`http://localhost:4000/api/projects/add`, {
+    //   method: 'post',
+    //   body: JSON.stringify(projectData),
+    // });
   };
 
   const undoPage = () => {
@@ -45,8 +48,18 @@ const ControlBar: React.FunctionComponent<Props> = ({
     redo();
   };
 
+  console.log('render ControlBar!!!');
+  // todo src路径优化
   return (
     <nav className="navbar navbar-expand-lg navbar-light control-bar">
+      <Link to="/" className="navbar-brand">
+        <img
+          src={'http://localhost:8081/' + logo}
+          alt="page design logo"
+          width="150"
+          height="70"
+        />
+      </Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -58,18 +71,23 @@ const ControlBar: React.FunctionComponent<Props> = ({
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item active" onClick={savePage}>
+          <li className="nav-item active" onClick={saveProject}>
             <i className="far fa-save"></i>
             <p className="nav-item-text">保存</p>
           </li>
-          <li className="nav-item" onClick={undoPage}>
+          <li
+            className={'nav-item' + (canUndo ? ' ' : ' disabled')}
+            onClick={undoPage}
+          >
             <i className="fas fa-undo"></i>
             <p className="nav-item-text">撤销</p>
           </li>
-          <li className="nav-item" onClick={redoPage}>
+          <li
+            className={'nav-item' + (canRedo ? ' ' : ' disabled')}
+            onClick={redoPage}
+          >
             <i className="fas fa-redo"></i>
             <p className="nav-item-text">重做</p>
           </li>
@@ -80,8 +98,9 @@ const ControlBar: React.FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
-  activePageUUID: state.editor.activePageUUID,
   projectData: state.editor.projectData,
+  canUndo: canUndo(state.editor),
+  canRedo: canRedo(state.editor),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({

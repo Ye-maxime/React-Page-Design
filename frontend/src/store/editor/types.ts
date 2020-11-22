@@ -1,27 +1,31 @@
 export interface ICommonStyle {
+  width: number;
+  height: number;
+  color: string;
+  zIndex: number;
+  fontSize: number;
+  top: number;
+  left: number;
+  rotate: number;
   [key: string]: any; // 定义一个映射类型
-  width?: number;
-  height?: number;
-  color?: string;
-  zIndex?: number;
-  fontSize?: number;
 }
 
 export interface IPropsValue {
-  [key: string]: any; // 定义一个映射类型
+  text?: string;
   placeholder?: string;
   //   fontSize?: number;
+  [key: string]: any; // 定义一个映射类型
 }
 
 export interface IElement {
-  [key: string]: any; // 定义一个映射类型
-  elementId?: string;
+  elementId: string;
   elementName: string;
   value: string; // 绑定值
   valueType: string; // 值类型
   events: [];
-  commonStyle?: ICommonStyle;
+  commonStyle: ICommonStyle;
   propsValue?: IPropsValue;
+  [key: string]: any; // 定义一个映射类型
 }
 
 export interface IPage {
@@ -45,14 +49,13 @@ export interface IHistoryCache {
   projectData: IProject;
   activePageUUID: string;
   activeElementUUID: string;
-  activeElement: IElement;
 }
 
 // 此接口用于定义 frontend/node_modules/@types/react/index.d.ts 里面React.createElement函数的props参数的类型P
 // props?: Attributes & P | null,
 export interface IRdpElement {
   element?: IElement;
-  setActiveElementUUID?: (elementId: string) => EditorActionTypes;
+  //   setActiveElementUUID?: (elementId: string) => EditorActionTypes;
   changeAttr?: (attrName: string, value: number | string) => EditorActionTypes;
   addHistoryCache?: () => EditorActionTypes;
 }
@@ -62,12 +65,15 @@ export interface ProjectState {
   projectData: IProject;
   activePageUUID: string;
   activeElementUUID: string;
-  activeElement: IElement;
   historyCache: IHistoryCache[];
   currentHistoryIndex: number;
+  loading: boolean;
 }
 
 // Actions & Action Creators
+export const ADD_PROJECT = 'ADD_PROJECT';
+export const ADD_PROJECT_SUCCESS = 'ADD_PROJECT_SUCCESS';
+export const PROJECT_FAILURE = 'PROJECT_FAILURE';
 export const ADD_PAGE = 'ADD_PAGE';
 export const DELETE_PAGE = 'DELETE_PAGE';
 export const ADD_ELEMENT = 'ADD_ELEMENT';
@@ -78,10 +84,28 @@ export const CHANGE_ATTR = 'CHANGE_ATTR';
 export const ADD_HISTORY_CACHE = 'ADD_HISTORY_CACHE';
 export const UN_DO = 'UN_DO';
 export const RE_DO = 'RE_DO';
+export const RESIZE_ELEMENT = 'RESIZE_ELEMENT';
+export const FETCH_PROJECT_DATA = 'FETCH_PROJECT_DATA';
+export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
+
+interface AddProjectAction {
+  type: typeof ADD_PROJECT;
+  newProject: IProject;
+}
+
+interface AddProjectSuccessAction {
+  type: typeof ADD_PROJECT_SUCCESS;
+  newProject: IProject;
+}
+
+interface ProjectFailureAction {
+  type: typeof PROJECT_FAILURE;
+  error: string;
+}
 
 interface AddPageAction {
   type: typeof ADD_PAGE;
-  pageData: IPage;
+  newPage: IPage;
 }
 
 interface DeletePageAction {
@@ -99,43 +123,64 @@ interface DeleteElementAction {
   elementId: string;
 }
 
-interface SetActivePageUUID {
+interface SetActivePageUUIDAction {
   type: typeof SET_ACTIVE_PAGE_UUID;
   pageId: string;
 }
 
-interface SetActiveElementUUID {
+interface SetActiveElementUUIDAction {
   type: typeof SET_ACTIVE_ELEMENT_UUID;
   elementId: string;
 }
 
-interface ChangeAttr {
+interface ChangeAttrAction {
   type: typeof CHANGE_ATTR;
   attrName: string;
   value: number | string;
 }
 
-interface AddHistoryCache {
+interface AddHistoryCacheAction {
   type: typeof ADD_HISTORY_CACHE;
 }
 
-interface Undo {
+interface UndoAction {
   type: typeof UN_DO;
 }
 
-interface Redo {
+interface RedoAction {
   type: typeof RE_DO;
+}
+
+interface ResizeElementAction {
+  type: typeof RESIZE_ELEMENT;
+  commonStyle: ICommonStyle;
+}
+
+interface FetchProjectDataAction {
+  type: typeof FETCH_PROJECT_DATA;
+  projectId: string;
+}
+
+interface SetProjectDataAction {
+  type: typeof SET_PROJECT_DATA;
+  projectData: IProject;
 }
 
 // eslint-disable-next-line max-len
 export type EditorActionTypes =
+  | AddProjectAction
+  | AddProjectSuccessAction
+  | ProjectFailureAction
   | AddPageAction
   | DeletePageAction
   | AddElementAction
   | DeleteElementAction
-  | SetActivePageUUID
-  | SetActiveElementUUID
-  | ChangeAttr
-  | AddHistoryCache
-  | Undo
-  | Redo;
+  | SetActivePageUUIDAction
+  | SetActiveElementUUIDAction
+  | ChangeAttrAction
+  | AddHistoryCacheAction
+  | UndoAction
+  | RedoAction
+  | ResizeElementAction
+  | FetchProjectDataAction
+  | SetProjectDataAction;
