@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import axios from 'axios';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { Menu } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
 import { MenuInfo } from 'rc-menu/lib/interface';

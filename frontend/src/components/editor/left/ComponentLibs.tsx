@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import * as actions from '@store/editor/actions';
 import BasicComponent from './BasicComponent';
 import { EditorActionTypes, IElement } from '@store/editor/types';

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { throttle, isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import throttle from 'lodash/throttle';
 import { InputNumber } from 'antd';
 import * as actions from '@store/editor/actions';
 import { EditorActionTypes, IElement } from '@store/editor/types';

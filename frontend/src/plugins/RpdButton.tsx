@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { IElement } from '../store/editor/types';
 
 export interface OwnProps {
@@ -23,4 +23,3 @@ export default {
   name: 'rpd-button',
   component: RpdButton,
 };
-

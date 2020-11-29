@@ -1,5 +1,6 @@
 // new 数据的模板
-import { cloneDeep, merge } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import merge from 'lodash/merge';
 import { IBasicComponentConfig } from '../config/basicComponentConfig';
 import { ICommonStyle, IElement, IPage, IProject } from '../store/editor/types';
 import { createUUID } from '../common/utils';

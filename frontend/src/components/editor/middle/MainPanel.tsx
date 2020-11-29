@@ -30,7 +30,7 @@ const MainPanel: React.FunctionComponent<Props> = ({
 
   return (
     <div className="editor-main">
-      <div className="editor-pane">
+      <div className="editor-pane" id="editor-pane">
         <div className="editor-pane-inner">
           {pageElements().map((eleData) => (
             <EditShape

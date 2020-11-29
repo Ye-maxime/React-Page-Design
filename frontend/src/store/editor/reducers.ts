@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable import/prefer-default-export */
 import produce from 'immer'; // https://www.pluralsight.com/guides/deeply-nested-objectives-redux
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {
   ProjectState,

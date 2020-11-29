@@ -34,14 +34,15 @@ const EditShape: React.FunctionComponent<Props> = ({
   setActiveElementUUID,
 }: Props) => {
   // l = left, t = top, r = right, b = bottom
-  const pointList = ['lt', 'rt', 'lb', 'rb', 'l', 'r', 't', 'b'];
+  const POINT_LIST = ['lt', 'rt', 'lb', 'rb', 'l', 'r', 't', 'b'];
   // 上下左右 对应 东南西北
-  const directionKey = {
+  const DIRECTION_KEY = {
     t: 'n',
     b: 's',
     l: 'w',
     r: 'e',
   };
+  const EDITOR_PADDING = 20;
 
   /**
    * 获取point计算后样式
@@ -80,7 +81,7 @@ const EditShape: React.FunctionComponent<Props> = ({
         point
           .split('')
           .reverse()
-          .map((m) => directionKey[m])
+          .map((m) => DIRECTION_KEY[m])
           .join('') + '-resize',
     };
     return style;
@@ -92,37 +93,81 @@ const EditShape: React.FunctionComponent<Props> = ({
   };
 
   /**
+   * 限制组件放大后的大小，不让其超过编辑器的宽和高
+   */
+  const limitComponentSize = (width: number, height: number) => {
+    const {
+      clientWidth: editorWidth,
+      clientHeight: editorHeight,
+    } = document.getElementById('editor-pane');
+
+    width = Math.min(editorWidth - 2 * EDITOR_PADDING, width);
+    height = Math.min(editorHeight - 2 * EDITOR_PADDING, height);
+    return {
+      width,
+      height,
+    };
+  };
+
+  /**
+   * 避免移出范围
+   */
+  const limitTopLeft = (
+    top: number,
+    left: number,
+    componentWidth = commonStyle.width,
+    componentHeight = commonStyle.height
+  ) => {
+    // 获取编辑器的宽和高
+    const {
+      clientWidth: editorWidth,
+      clientHeight: editorHeight,
+    } = document.getElementById('editor-pane');
+
+    return {
+      top: Math.max(
+        Math.min(editorHeight - (EDITOR_PADDING + componentHeight), top),
+        EDITOR_PADDING
+      ),
+      left: Math.max(
+        Math.min(editorWidth - (EDITOR_PADDING + componentWidth), left),
+        EDITOR_PADDING
+      ),
+    };
+  };
+
+  /**
    * 移动改变元素定位
    */
   const handleMouseDownOnElement = (event: React.MouseEvent) => {
     setActiveElementUUID(elementId);
     const pos = { ...commonStyle };
-    let startY = event.clientY;
-    let startX = event.clientX;
-    let startTop = pos.top;
-    let startLeft = pos.left;
-    let firstTime = new Date().getTime();
+    const startY = event.clientY;
+    const startX = event.clientX;
+    const startTop = pos.top;
+    const startLeft = pos.left;
+    const firstTime = new Date().getTime();
     let lastTime;
 
-    console.log(
-      `handleMouseDownOnElement startY = ${startY}, startX = ${startX}, startTop = ${startTop}, startLeft = ${startLeft}`
-    );
-
-    let moveCallback = (moveEvent: MouseEvent) => {
+    const moveCallback = (moveEvent: MouseEvent) => {
       // 移动的时候，不需要向父元素传递事件，只需要单纯的移动就OK
       moveEvent.stopPropagation();
       moveEvent.preventDefault();
 
-      let currX = moveEvent.clientX;
-      let currY = moveEvent.clientY;
+      const currX = moveEvent.clientX;
+      const currY = moveEvent.clientY;
+      const left = currX - startX + startLeft;
+      const top = currY - startY + startTop;
+      const limitEdge = limitTopLeft(top, left);
+
       resizeElement({
         ...commonStyle,
-        left: currX - startX + startLeft,
-        top: currY - startY + startTop,
+        left: limitEdge.left,
+        top: limitEdge.top,
       });
     };
 
-    let upCallback = () => {
+    const upCallback = () => {
       lastTime = new Date().getTime();
       if (lastTime - firstTime > 200) {
         // 鼠标移动完成时才记入历史纪录
@@ -164,13 +209,23 @@ const EditShape: React.FunctionComponent<Props> = ({
       let hasR = /r/.test(point);
       let newHeight = +height + (hasT ? -disY : hasB ? disY : 0);
       let newWidth = +width + (hasL ? -disX : hasR ? disX : 0);
+      let componentSize = limitComponentSize(
+        newWidth > 0 ? newWidth : 0,
+        newHeight > 0 ? newHeight : 0
+      );
+      let limitEdge = limitTopLeft(
+        +top + (hasT ? disY : 0),
+        +left + (hasL ? disX : 0),
+        newWidth,
+        newHeight
+      );
       // 统一更改commonStyle
       resizeElement({
         ...commonStyle,
-        height: newHeight > 0 ? newHeight : 0,
-        width: newWidth > 0 ? newWidth : 0,
-        left: +left + (hasL ? disX : 0),
-        top: +top + (hasT ? disY : 0),
+        height: componentSize.height,
+        width: componentSize.width,
+        left: limitEdge.left,
+        top: limitEdge.top,
       });
     };
 
@@ -193,7 +248,7 @@ const EditShape: React.FunctionComponent<Props> = ({
       onMouseDown={handleMouseDownOnElement}
     >
       {elementId === activeElementUUID &&
-        pointList.map((point) => (
+        POINT_LIST.map((point) => (
           <div
             className="editor-shape-point"
             key={point}
