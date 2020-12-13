@@ -32,9 +32,8 @@ const AttrRpdPlaceholder: React.FunctionComponent<Props> = React.memo(
       </>
     );
   },
-  (prevProps, nextProps) =>
-    prevProps.element.propsValue.placeholder ===
-    nextProps.element.propsValue.placeholder
+  (prevProps, nextProps) => prevProps.element.propsValue.placeholder
+    === nextProps.element.propsValue.placeholder,
 );
 
 export default {

@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import KoaBody from 'koa-body';
 import Cors from '@koa/cors';
+import path from 'path';
 import 'reflect-metadata'; // this shim is required
 import { useKoaServer, useContainer } from 'routing-controllers';
 import { Container } from 'typedi';
@@ -16,7 +17,7 @@ app.use(KoaBody());
 useContainer(Container);
 useKoaServer(app, {
   routePrefix: '/api',
-  controllers: [__dirname + '/controller/*.ts'], // we specify controllers we want to use
+  controllers: [path.join(__dirname, '/controller/*.ts')], // we specify controllers we want to use
   //   validation: false,
 });
 

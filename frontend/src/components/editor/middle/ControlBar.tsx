@@ -32,7 +32,7 @@ const ControlBar: React.FunctionComponent<Props> = ({
   const saveProject = () => {
     axios.post(
       `http://localhost:4000/api/projects/update/${projectData.projectId}`,
-      projectData // 不需要JSON.stringify 默认已经是application/json形式
+      projectData, // 不需要JSON.stringify 默认已经是application/json形式
     );
     // fetch(`http://localhost:4000/api/projects/add`, {
     //   method: 'post',
@@ -54,7 +54,7 @@ const ControlBar: React.FunctionComponent<Props> = ({
     <nav className="navbar navbar-expand-lg navbar-light control-bar">
       <Link to="/" className="navbar-brand">
         <img
-          src={'http://localhost:8081/' + logo}
+          src={`http://localhost:8081/${logo}`}
           alt="page design logo"
           width="150"
           height="70"
@@ -69,26 +69,26 @@ const ControlBar: React.FunctionComponent<Props> = ({
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon" />
       </button>
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active" onClick={saveProject}>
-            <i className="far fa-save"></i>
+            <i className="far fa-save" />
             <p className="nav-item-text">保存</p>
           </li>
           <li
-            className={'nav-item' + (canUndo ? ' ' : ' disabled')}
+            className={`nav-item${canUndo ? ' ' : ' disabled'}`}
             onClick={undoPage}
           >
-            <i className="fas fa-undo"></i>
+            <i className="fas fa-undo" />
             <p className="nav-item-text">撤销</p>
           </li>
           <li
-            className={'nav-item' + (canRedo ? ' ' : ' disabled')}
+            className={`nav-item${canRedo ? ' ' : ' disabled'}`}
             onClick={redoPage}
           >
-            <i className="fas fa-redo"></i>
+            <i className="fas fa-redo" />
             <p className="nav-item-text">重做</p>
           </li>
         </ul>
@@ -110,5 +110,5 @@ const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
 
 export default connect<IStateProps, any, any>(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ControlBar);

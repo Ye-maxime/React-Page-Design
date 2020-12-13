@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { IProject, EditorActionTypes } from '../store/editor/types';
-import * as actions from '../store/editor/actions';
 import { Card } from 'antd';
 import { getProjectConfig } from '@dataModels/index';
+import pagecover from '@assets/images/pagecover.jpg';
+import { IProject, EditorActionTypes } from '../store/editor/types';
+import * as actions from '../store/editor/actions';
 import history from '../common/browserHistory';
 import useDataApi from '../customHooks/useDataApi';
-import pagecover from '@assets/images/pagecover.jpg';
 
 const { Meta } = Card;
 
@@ -20,7 +20,7 @@ type Props = IDispatchProps;
 const Home: React.FunctionComponent<Props> = ({ addProject }: Props) => {
   const { data, doFetch } = useDataApi(
     'http://localhost:4000/api/projects/',
-    []
+    [],
   );
 
   const createNewProject = () => {
@@ -40,18 +40,18 @@ const Home: React.FunctionComponent<Props> = ({ addProject }: Props) => {
           onClick={createNewProject}
           hoverable
           className="page-item"
-          cover={<i className="fas fa-plus page-item-create"></i>}
+          cover={<i className="fas fa-plus page-item-create" />}
         >
           <Meta title="新建项目" />
         </Card>
-        {Array.isArray(data) &&
-          data.map((prj: IProject) => (
+        {Array.isArray(data)
+          && data.map((prj: IProject) => (
             <Card
               key={prj.projectId}
               onClick={() => editProject(prj.projectId)}
               hoverable
               className="page-item"
-              cover={<img src={pagecover} className="pagecover" />}
+              cover={<img src={pagecover} className="pagecover" alt="cover page" />}
             >
               <Meta title={prj.name} />
             </Card>
@@ -68,5 +68,5 @@ const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
 // 需要按顺序写 IStateProps, IDispatchProps, OwnProps
 export default connect<any, IDispatchProps, any>(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Home);

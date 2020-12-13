@@ -4,8 +4,7 @@ import { Dispatch } from 'redux';
 import * as actions from '@store/editor/actions';
 import { RootState } from '@store/index';
 import { getCommonStyle } from '@dataModels/index';
-import { ICommonStyle } from '@store/editor/types';
-import { EditorActionTypes } from '@store/editor/types';
+import { ICommonStyle, EditorActionTypes } from '@store/editor/types';
 
 export interface OwnProps {
   children: React.ReactNode;
@@ -48,13 +47,11 @@ const EditShape: React.FunctionComponent<Props> = ({
    * 获取point计算后样式
    */
   const getPointStyle = (point: string) => {
-    const pos = { ...commonStyle };
-    const height = pos.height;
-    const width = pos.width;
-    let hasT = /t/.test(point);
-    let hasB = /b/.test(point);
-    let hasL = /l/.test(point);
-    let hasR = /r/.test(point);
+    const { height, width } = commonStyle;
+    const hasT = /t/.test(point);
+    const hasB = /b/.test(point);
+    const hasL = /l/.test(point);
+    const hasR = /r/.test(point);
     let newLeft = 0;
     let newTop = 0;
     if (point.length === 2) {
@@ -77,12 +74,11 @@ const EditShape: React.FunctionComponent<Props> = ({
       marginTop: hasT || hasB ? '-5px' : 0,
       left: `${newLeft}px`,
       top: `${newTop}px`,
-      cursor:
-        point
-          .split('')
-          .reverse()
-          .map((m) => DIRECTION_KEY[m])
-          .join('') + '-resize',
+      cursor: `${point
+        .split('')
+        .reverse()
+        .map((m) => DIRECTION_KEY[m])
+        .join('')}-resize`,
     };
     return style;
   };
@@ -116,7 +112,7 @@ const EditShape: React.FunctionComponent<Props> = ({
     top: number,
     left: number,
     componentWidth = commonStyle.width,
-    componentHeight = commonStyle.height
+    componentHeight = commonStyle.height,
   ) => {
     // 获取编辑器的宽和高
     const {
@@ -127,11 +123,11 @@ const EditShape: React.FunctionComponent<Props> = ({
     return {
       top: Math.max(
         Math.min(editorHeight - (EDITOR_PADDING + componentHeight), top),
-        EDITOR_PADDING
+        EDITOR_PADDING,
       ),
       left: Math.max(
         Math.min(editorWidth - (EDITOR_PADDING + componentWidth), left),
-        EDITOR_PADDING
+        EDITOR_PADDING,
       ),
     };
   };
@@ -186,38 +182,38 @@ const EditShape: React.FunctionComponent<Props> = ({
    * 拉动小圆点改变元素大小
    */
   const handleMouseDownOnPoint = (event: React.MouseEvent, point: string) => {
-    console.log(`handleMouseDownOnPoint`);
+    console.log('handleMouseDownOnPoint');
     // 不需要传递给父组件 以此来避免触发handleMouseDownOnElement
     event.stopPropagation();
     event.preventDefault();
     const pos = { ...commonStyle };
-    let height = pos.height;
-    let width = pos.width;
-    let top = pos.top;
-    let left = pos.left;
-    let startX = event.clientX;
-    let startY = event.clientY;
+    const { height } = pos;
+    const { width } = pos;
+    const { top } = pos;
+    const { left } = pos;
+    const startX = event.clientX;
+    const startY = event.clientY;
 
-    let moveCallback = (moveEvent: MouseEvent) => {
-      let currX = moveEvent.clientX;
-      let currY = moveEvent.clientY;
-      let disY = currY - startY;
-      let disX = currX - startX;
-      let hasT = /t/.test(point);
-      let hasB = /b/.test(point);
-      let hasL = /l/.test(point);
-      let hasR = /r/.test(point);
-      let newHeight = +height + (hasT ? -disY : hasB ? disY : 0);
-      let newWidth = +width + (hasL ? -disX : hasR ? disX : 0);
-      let componentSize = limitComponentSize(
+    const moveCallback = (moveEvent: MouseEvent) => {
+      const currX = moveEvent.clientX;
+      const currY = moveEvent.clientY;
+      const disY = currY - startY;
+      const disX = currX - startX;
+      const hasT = /t/.test(point);
+      const hasB = /b/.test(point);
+      const hasL = /l/.test(point);
+      const hasR = /r/.test(point);
+      const newHeight = +height + (hasT ? -disY : hasB ? disY : 0);
+      const newWidth = +width + (hasL ? -disX : hasR ? disX : 0);
+      const componentSize = limitComponentSize(
         newWidth > 0 ? newWidth : 0,
-        newHeight > 0 ? newHeight : 0
+        newHeight > 0 ? newHeight : 0,
       );
-      let limitEdge = limitTopLeft(
+      const limitEdge = limitTopLeft(
         +top + (hasT ? disY : 0),
         +left + (hasL ? disX : 0),
         newWidth,
-        newHeight
+        newHeight,
       );
       // 统一更改commonStyle
       resizeElement({
@@ -229,7 +225,7 @@ const EditShape: React.FunctionComponent<Props> = ({
       });
     };
 
-    let upCallback = () => {
+    const upCallback = () => {
       // 鼠标移动完成时才记入历史纪录
       addHistoryCache();
       document.removeEventListener('mousemove', moveCallback);
@@ -247,14 +243,14 @@ const EditShape: React.FunctionComponent<Props> = ({
       onClick={handleTopWrapperClick}
       onMouseDown={handleMouseDownOnElement}
     >
-      {elementId === activeElementUUID &&
-        POINT_LIST.map((point) => (
+      {elementId === activeElementUUID
+        && POINT_LIST.map((point) => (
           <div
             className="editor-shape-point"
             key={point}
             style={getPointStyle(point)}
             onMouseDown={(event) => handleMouseDownOnPoint(event, point)}
-          ></div>
+          />
         ))}
       {children}
     </div>
@@ -267,11 +263,10 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   addHistoryCache: () => dispatch(actions.addHistoryCache()),
   resizeElement: (commonStyle) => dispatch(actions.resizeElement(commonStyle)),
-  setActiveElementUUID: (elementId) =>
-    dispatch(actions.setActiveElementUUID(elementId)),
+  setActiveElementUUID: (elementId) => dispatch(actions.setActiveElementUUID(elementId)),
 });
 
 export default connect<IStateProps, IDispatchProps, OwnProps>(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(EditShape);

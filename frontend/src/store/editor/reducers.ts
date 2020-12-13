@@ -64,13 +64,13 @@ const initialState: ProjectState = {
 
 const editorReducer = (
   state = initialState,
-  action: EditorActionTypes
+  action: EditorActionTypes,
 ): ProjectState => {
   switch (action.type) {
     case ADD_PROJECT:
       return { ...state, loading: true };
     case ADD_PROJECT_SUCCESS:
-      const newProject: IProject = action.newProject;
+      const { newProject } = action;
       console.log('ADD_PROJECT_SUCCESS ', newProject);
       return {
         ...state, // ...state 必须写前面才会被覆盖！！！
@@ -98,13 +98,13 @@ const editorReducer = (
         projectData: {
           ...state.projectData,
           pages: state.projectData.pages.filter(
-            (page) => page.pageId !== action.pageId
+            (page) => page.pageId !== action.pageId,
           ),
         },
       };
     case ADD_ELEMENT: {
       const pageIndex = state.projectData.pages.findIndex(
-        (p) => p.pageId === state.activePageUUID
+        (p) => p.pageId === state.activePageUUID,
       );
       return produce(state, (draft) => {
         draft.projectData.pages[pageIndex].elements.push(action.elementData);
@@ -127,11 +127,11 @@ const editorReducer = (
       // 改变元素本身的value 或 commonStyle里面的属性 或 propsValue里面的属性
       const { attrName, value } = action;
       const pageIndex = state.projectData.pages.findIndex(
-        (p) => p.pageId === state.activePageUUID
+        (p) => p.pageId === state.activePageUUID,
       );
       return produce(state, (draft) => {
         const currentElement = draft.projectData.pages[pageIndex].elements.find(
-          (ele) => ele.elementId === state.activeElementUUID
+          (ele) => ele.elementId === state.activeElementUUID,
         );
 
         if (currentElement.hasOwnProperty(attrName)) {
@@ -161,11 +161,11 @@ const editorReducer = (
     }
     case RESIZE_ELEMENT: {
       const pageIndex = state.projectData.pages.findIndex(
-        (p) => p.pageId === state.activePageUUID
+        (p) => p.pageId === state.activePageUUID,
       );
       return produce(state, (draft) => {
         const currentElement = draft.projectData.pages[pageIndex].elements.find(
-          (ele) => ele.elementId === state.activeElementUUID
+          (ele) => ele.elementId === state.activeElementUUID,
         );
 
         currentElement.commonStyle = action.commonStyle;
@@ -181,12 +181,11 @@ const editorReducer = (
           draft.activeElementUUID = copyState.activeElementUUID;
           draft.currentHistoryIndex--;
         });
-      } else {
-        // 返回原来状态 ！！！！
-        return {
-          ...state,
-        };
       }
+      // 返回原来状态 ！！！！
+      return {
+        ...state,
+      };
     }
     case RE_DO: {
       if (state.historyCache.length - 1 > state.currentHistoryIndex) {
@@ -198,12 +197,11 @@ const editorReducer = (
           draft.activeElementUUID = copyState.activeElementUUID;
           draft.currentHistoryIndex++;
         });
-      } else {
-        // 返回原来状态 ！！！！
-        return {
-          ...state,
-        };
       }
+      // 返回原来状态 ！！！！
+      return {
+        ...state,
+      };
     }
     case FETCH_PROJECT_DATA: {
       return {
@@ -212,11 +210,11 @@ const editorReducer = (
       };
     }
     case SET_PROJECT_DATA: {
-      const projectData = action.projectData;
+      const { projectData } = action;
       return {
         ...state,
         loading: false,
-        projectData: projectData,
+        projectData,
         activePageUUID: projectData.pages[0].pageId,
         activeElementUUID: '',
         historyCache: [],

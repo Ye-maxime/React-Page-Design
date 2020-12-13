@@ -6,8 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   mode: 'development',
@@ -137,11 +136,11 @@ module.exports = {
         parallel: true,
         sourceMap: false, // 开发环境为true  生产环境为false
         uglifyOptions: {
-          warnings: false, //当删除没有用处的代码时，显示警告
+          warnings: false, // 当删除没有用处的代码时，显示警告
           compress: {
-            //压缩代码
-            dead_code: true, //移除没被引用的代码
-            loops: true, //当do、while 、 for循环的判断条件可以确定是，对其进行优化
+            // 压缩代码
+            dead_code: true, // 移除没被引用的代码
+            loops: true, // 当do、while 、 for循环的判断条件可以确定是，对其进行优化
           },
         },
       }),

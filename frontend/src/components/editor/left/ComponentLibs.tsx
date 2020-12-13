@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import throttle from 'lodash/throttle';
 import * as actions from '@store/editor/actions';
-import BasicComponent from './BasicComponent';
 import { EditorActionTypes, IElement } from '@store/editor/types';
 import componentsList, {
   IBasicComponentConfig,
 } from '@config/basicComponentConfig';
 import { getElementConfig } from '@dataModels/index';
+import BasicComponent from './BasicComponent';
 
 interface IDispatchProps {
   addElement: (newElement: IElement) => EditorActionTypes;
@@ -55,12 +55,11 @@ const ComponentLibs: React.FunctionComponent<Props> = ({
 // 将 对应action 插入到组件的 props 中
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
   addElement: (newElement) => dispatch(actions.addElement(newElement)),
-  setActiveElementUUID: (elementId) =>
-    dispatch(actions.setActiveElementUUID(elementId)),
+  setActiveElementUUID: (elementId) => dispatch(actions.setActiveElementUUID(elementId)),
   addHistoryCache: () => dispatch(actions.addHistoryCache()),
 });
 
 export default connect<any, IDispatchProps, any>(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ComponentLibs);

@@ -2,7 +2,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';
 import { IBasicComponentConfig } from '../config/basicComponentConfig';
-import { ICommonStyle, IElement, IPage, IProject } from '../store/editor/types';
+import {
+  ICommonStyle, IElement, IPage, IProject,
+} from '../store/editor/types';
 import { createUUID } from '../common/utils';
 
 const dict: Record<string, any> = {
@@ -55,7 +57,7 @@ export const projectConfig: IProject = {
 
 export const getElementConfig = (
   element: IBasicComponentConfig,
-  extendStyle = {}
+  extendStyle = {},
 ): IElement => {
   const elementData: IBasicComponentConfig = cloneDeep(element);
   const type = elementData.valueType || 'String'; // 默认string类型
@@ -76,23 +78,21 @@ export const getElementConfig = (
   return config;
 };
 
-export const getPageConfig = (): IPage => {
+export const getPageConfig = (): IPage =>
   //   return {
   //     pageId: createUUID(),
   //     name: '新页面' + Math.floor(Math.random() * 10),
   //     elements: [],
   //   };
-  return {
+  ({
     ...cloneDeep(pageConfig),
     pageId: createUUID(),
-    name: '新页面' + Math.floor(Math.random() * 100),
-  };
-};
-
+    name: `新页面${Math.floor(Math.random() * 100)}`,
+  });
 export const getProjectConfig = (): IProject => {
   const project = cloneDeep(projectConfig);
   project.projectId = createUUID();
-  project.name = '新项目' + Math.floor(Math.random() * 100);
+  project.name = `新项目${Math.floor(Math.random() * 100)}`;
   const onePage = getPageConfig();
   project.pages.push(onePage);
   return project;
@@ -104,7 +104,7 @@ export const getProjectConfig = (): IProject => {
  * @param scalePoint 缩放比例
  */
 export const getCommonStyle = (styleObj: ICommonStyle, scalingRatio = 1) => {
-  let needUnitStr = [
+  const needUnitStr = [
     'width',
     'height',
     'top',
@@ -123,11 +123,11 @@ export const getCommonStyle = (styleObj: ICommonStyle, scalingRatio = 1) => {
     'letterSpacing',
   ];
 
-  let style: Record<string, any> = {};
+  const style: Record<string, any> = {};
   const keyList = Object.keys(styleObj);
-  for (let key of keyList) {
+  for (const key of keyList) {
     if (needUnitStr.includes(key)) {
-      style[key] = styleObj[key] * scalingRatio + 'px';
+      style[key] = `${styleObj[key] * scalingRatio}px`;
     } else {
       style[key] = styleObj[key];
     }

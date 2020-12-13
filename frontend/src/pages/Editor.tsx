@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import * as actions from '../store/editor/actions';
 import { RouteComponentProps } from 'react-router';
+import * as actions from '../store/editor/actions';
 import { RootState } from '../store/index';
 import { EditorActionTypes } from '../store/editor/types';
 import ComponentLibs from '../components/editor/left/ComponentLibs';
@@ -16,7 +16,7 @@ interface MatchParams {
   projectId: string;
 }
 
-export interface OwnProps extends RouteComponentProps<MatchParams> {}
+export type OwnProps = RouteComponentProps<MatchParams>
 
 interface IStateProps {
   activePageUUID: string;
@@ -63,17 +63,16 @@ const Editor: React.FunctionComponent<Props> = ({
 
 const mapStateToProps = (
   state: RootState,
-  ownProps: OwnProps
+  ownProps: OwnProps,
 ): IStateProps => ({
   activePageUUID: state.editor.activePageUUID,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
-  fetchProjectData: (projectId) =>
-    dispatch(actions.fetchProjectData(projectId)),
+  fetchProjectData: (projectId) => dispatch(actions.fetchProjectData(projectId)),
 });
 
 export default connect<IStateProps, IDispatchProps, OwnProps>(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Editor);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { IProject } from '@store/editor/types';
 import { RootState } from '@store/index';
 import { renderer } from '@plugins/index';
-import EditShape from '../middle/EditShape';
+import EditShape from './EditShape';
 
 // export interface OwnProps {
 // }
@@ -23,7 +23,7 @@ const MainPanel: React.FunctionComponent<Props> = ({
 }: Props) => {
   const pageElements = () => {
     const activePage = projectData.pages.find(
-      (page) => page.pageId === activePageUUID
+      (page) => page.pageId === activePageUUID,
     );
     return activePage?.elements || [];
   };

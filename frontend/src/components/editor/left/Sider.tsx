@@ -58,5 +58,5 @@ const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
 
 export default connect<any, IDispatchProps, any>(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Sider);

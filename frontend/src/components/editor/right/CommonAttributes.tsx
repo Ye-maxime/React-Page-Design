@@ -22,11 +22,9 @@ type Props = IStateProps & IDispatchProps;
 
 const CommonAttributes: React.FunctionComponent<Props> = React.memo(
   ({ activeElement, changeAttr, addHistoryCache }: Props) => {
-    const changeHandler = (attrName: string) => {
-      return (value: number) => {
-        changeAttr(attrName, value);
-        throttle(addHistoryCache, 3000)();
-      };
+    const changeHandler = (attrName: string) => (value: number) => {
+      changeAttr(attrName, value);
+      throttle(addHistoryCache, 3000)();
     };
     console.log('render CommonAttributes!!');
     return (
@@ -65,8 +63,8 @@ const CommonAttributes: React.FunctionComponent<Props> = React.memo(
     // 浅比较commonStyle中的所有属性是否相等
     isEqual(
       prevProps.activeElement.commonStyle,
-      nextProps.activeElement.commonStyle
-    )
+      nextProps.activeElement.commonStyle,
+    ),
 );
 
 const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
@@ -74,12 +72,11 @@ const mapStateToProps = (state: RootState, ownProps: any): IStateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
-  changeAttr: (attrName, value) =>
-    dispatch(actions.changeAttr(attrName, value)),
+  changeAttr: (attrName, value) => dispatch(actions.changeAttr(attrName, value)),
   addHistoryCache: () => dispatch(actions.addHistoryCache()),
 });
 
 export default connect<IStateProps, IDispatchProps, any>(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CommonAttributes);

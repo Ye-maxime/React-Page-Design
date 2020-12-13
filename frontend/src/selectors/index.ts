@@ -1,25 +1,15 @@
 import { ICommonStyle, IElement, ProjectState } from '@store/editor/types';
 import { createSelector } from 'reselect';
 
-const getActiveElementUUID = (state: ProjectState) => {
-  return state.activeElementUUID;
-};
+const getActiveElementUUID = (state: ProjectState) => state.activeElementUUID;
 
-const getActivePageUUID = (state: ProjectState) => {
-  return state.activePageUUID;
-};
+const getActivePageUUID = (state: ProjectState) => state.activePageUUID;
 
-const getProjectData = (state: ProjectState) => {
-  return state.projectData;
-};
+const getProjectData = (state: ProjectState) => state.projectData;
 
-const getCurrentHistoryIndex = (state: ProjectState) => {
-  return state.currentHistoryIndex;
-};
+const getCurrentHistoryIndex = (state: ProjectState) => state.currentHistoryIndex;
 
-const getHistoryCache = (state: ProjectState) => {
-  return state.historyCache;
-};
+const getHistoryCache = (state: ProjectState) => state.historyCache;
 
 // 类似于vuex的getters 计算衍生属性
 export const getActiveElement = createSelector(
@@ -28,28 +18,20 @@ export const getActiveElement = createSelector(
     if (projectData.pages.length === 0) {
       return null;
     }
-    const currentPageIndex = projectData.pages.findIndex((page) => {
-      return page.pageId === activePageUUID;
-    });
+    const currentPageIndex = projectData.pages.findIndex((page) => page.pageId === activePageUUID);
     if (currentPageIndex === -1) {
       return null;
     }
-    return projectData.pages[currentPageIndex].elements.find((element) => {
-      return element.elementId === activeElementUUID;
-    });
-  }
+    return projectData.pages[currentPageIndex].elements.find((element) => element.elementId === activeElementUUID);
+  },
 );
 
 export const canUndo = createSelector(
   [getCurrentHistoryIndex],
-  (currentHistoryIndex) => {
-    return currentHistoryIndex > 0;
-  }
+  (currentHistoryIndex) => currentHistoryIndex > 0,
 );
 
 export const canRedo = createSelector(
   [getCurrentHistoryIndex, getHistoryCache],
-  (currentHistoryIndex, historyCache) => {
-    return historyCache.length > currentHistoryIndex + 1;
-  }
+  (currentHistoryIndex, historyCache) => historyCache.length > currentHistoryIndex + 1,
 );
