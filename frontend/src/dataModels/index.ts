@@ -125,6 +125,7 @@ export const getCommonStyle = (styleObj: ICommonStyle, scalingRatio = 1) => {
 
   const style: Record<string, any> = {};
   const keyList = Object.keys(styleObj);
+  // eslint-disable-next-line no-restricted-syntax
   for (const key of keyList) {
     if (needUnitStr.includes(key)) {
       style[key] = `${styleObj[key] * scalingRatio}px`;

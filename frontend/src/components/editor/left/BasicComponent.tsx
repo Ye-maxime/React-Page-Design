@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable max-len */
 // 左侧导航栏里的基础组件中的单个组件
 import * as React from 'react';

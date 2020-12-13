@@ -1,6 +1,6 @@
 import { Column } from 'typeorm';
 
-export class PropsValue {
+export default class PropsValue {
   @Column()
   text!: string;
 

@@ -9,7 +9,7 @@ type UseDataApiReturnTypes = {
 // https://juejin.im/post/6844903807000772621#heading-0
 const useDataApi = (
   initialUrl: string,
-  initialData: string | []
+  initialData: string | [],
 ): UseDataApiReturnTypes => {
   const [url, setUrl] = React.useState(initialUrl);
   const [data, setData] = React.useState(initialData);

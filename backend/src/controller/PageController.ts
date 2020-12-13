@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   JsonController,
   Param,
@@ -7,13 +8,14 @@ import {
   Put,
   Delete,
 } from 'routing-controllers';
-import { Page } from '../entity/Page';
-import { PageService } from '../service/PageService';
+import Page from '../entity/Page';
+import PageService from '../service/PageService';
 
 // https://github.com/typestack/routing-controllers
 @JsonController('/pages')
-export class PageController {
+export default class PageController {
   // 依赖注入
+  // eslint-disable-next-line no-useless-constructor
   constructor(private pageService: PageService) {}
 
   @Get('/')

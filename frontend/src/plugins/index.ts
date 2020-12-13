@@ -34,7 +34,7 @@ const renderer = (
         element: data,
         // setActiveElementUUID: setActiveElementUUID,
         // changeAttr: changeAttr,
-      }
+      },
     );
   }
 };

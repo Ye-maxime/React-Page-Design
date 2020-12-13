@@ -1,10 +1,14 @@
-import { JsonController, Param, Body, Get, Post } from 'routing-controllers';
-import { Project } from '../entity/Project';
-import { ProjectService } from '../service/ProjectService';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import {
+  JsonController, Param, Body, Get, Post,
+} from 'routing-controllers';
+import Project from '../entity/Project';
+import ProjectService from '../service/ProjectService';
 
 @JsonController('/projects')
-export class ProjectController {
+export default class ProjectController {
   // 依赖注入
+  // eslint-disable-next-line no-useless-constructor
   constructor(private projectService: ProjectService) {}
 
   @Get('/')

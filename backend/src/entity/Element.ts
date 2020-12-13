@@ -1,9 +1,11 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
-import { CommonStyle } from './CommonStyle';
-import { PropsValue } from './PropsValue';
+import {
+  Column, Entity, ObjectID, ObjectIdColumn,
+} from 'typeorm';
+import CommonStyle from './CommonStyle';
+import PropsValue from './PropsValue';
 
 @Entity()
-export class Element {
+export default class Element {
   @ObjectIdColumn()
   id!: ObjectID;
 

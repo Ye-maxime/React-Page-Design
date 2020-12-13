@@ -1,6 +1,6 @@
 import { Column } from 'typeorm';
 
-export class CommonStyle {
+export default class CommonStyle {
   @Column()
   width!: number;
 

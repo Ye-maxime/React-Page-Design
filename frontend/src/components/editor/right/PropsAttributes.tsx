@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 // 把某个组件单有的属性显示在右侧编辑栏
 import * as React from 'react';
 import { connect } from 'react-redux';

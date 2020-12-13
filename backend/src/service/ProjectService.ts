@@ -1,7 +1,9 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { getMongoRepository } from 'typeorm';
-import { Project } from '../entity/Project';
+import Project from '../entity/Project';
 
-export class ProjectService {
+export default class ProjectService {
   async getProjects() {
     const projectRepository = getMongoRepository(Project);
     const projects = await projectRepository.find();
@@ -14,7 +16,7 @@ export class ProjectService {
   async getProject(projectId: string) {
     const projectRepository = getMongoRepository(Project);
     const project = await projectRepository.findOne({
-      projectId: projectId,
+      projectId,
     });
     if (project) {
       const { id, ...res } = project;

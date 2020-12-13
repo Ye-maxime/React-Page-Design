@@ -2,6 +2,7 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-bitwise */
 
+// eslint-disable-next-line import/no-unresolved
 import { CoreOptions } from 'request';
 
 /**
@@ -24,7 +25,7 @@ export const createUUID = (): string => {
 export const createRequestOptions = (
   method = 'GET',
   payload = '',
-  needAuthorization = false
+  needAuthorization = false,
 ) => {
   const headers: Headers = new Headers({
     'Content-Type': 'application/json',

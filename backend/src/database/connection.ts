@@ -1,11 +1,12 @@
 import { createConnection } from 'typeorm';
-import { Page } from '../entity/Page';
-import { Element } from '../entity/Element';
-import { CommonStyle } from '../entity/CommonStyle';
-import { PropsValue } from '../entity/PropsValue';
+import Page from '../entity/Page';
+import Element from '../entity/Element';
+import CommonStyle from '../entity/CommonStyle';
+import PropsValue from '../entity/PropsValue';
 
 // createConnection方法会自动读取来自ormconfig.json文件或环境变量中的连接选项
 const connection: Promise<unknown> = createConnection()
+  // eslint-disable-next-line no-shadow
   .then(async (connection) => {
     // const propsValue = new PropsValue();
     // propsValue.placeholder = '请输入一段文字';

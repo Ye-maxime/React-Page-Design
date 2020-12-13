@@ -1,8 +1,10 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
-import { Page } from './Page';
+import {
+  Column, Entity, ObjectID, ObjectIdColumn,
+} from 'typeorm';
+import Page from './Page';
 
 @Entity()
-export class Project {
+export default class Project {
   @ObjectIdColumn()
   id!: ObjectID;
 

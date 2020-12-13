@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable max-len */
 // 左侧导航栏组件库
 // https://github.com/huangwei9527/quark-h5/blob/master/client/pages/editor/components/component-libs/Index.vue

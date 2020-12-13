@@ -1,7 +1,9 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { getMongoRepository } from 'typeorm';
-import { Page } from '../entity/Page';
+import Page from '../entity/Page';
 
-export class PageService {
+export default class PageService {
   async getPages() {
     const pageRepository = getMongoRepository(Page);
     const page1 = await pageRepository.findOne({
@@ -11,7 +13,7 @@ export class PageService {
   }
 
   getPage(id: number) {
-    return 'This action returns page #' + id;
+    return `This action returns page #${id}`;
   }
 
   async addPage(page: Page) {

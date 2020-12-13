@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable max-len */
 // 中间主编辑页面
 import * as React from 'react';

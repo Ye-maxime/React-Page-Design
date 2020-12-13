@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { ICommonStyle, IElement, ProjectState } from '@store/editor/types';
 import { createSelector } from 'reselect';
 
