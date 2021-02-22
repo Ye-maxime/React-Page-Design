@@ -3,7 +3,7 @@ import {
   EditorActionTypes,
   IElement,
   IRdpElement,
-} from '../store/editor/types';
+} from '@store/editor/types';
 import RpdButton from './RpdButton';
 import RpdText from './RpdText';
 

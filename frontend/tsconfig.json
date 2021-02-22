@@ -25,6 +25,9 @@
             "@plugins/*": [
                 "./plugins/*"
             ],
+            "@common/*": [
+                "./common/*"
+            ],
             "@assets/*": [
                 "./assets/*"
             ],

@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-plusplus */
 /* eslint-disable max-len */
 /* eslint-disable import/prefer-default-export */
 import produce from 'immer'; // https://www.pluralsight.com/guides/deeply-nested-objectives-redux
@@ -23,6 +25,7 @@ import {
   IProject,
   SET_PROJECT_DATA,
   FETCH_PROJECT_DATA,
+  UPDATE_PROJECT_CONFIG,
 } from './types';
 
 const initialState: ProjectState = {
@@ -67,11 +70,11 @@ const editorReducer = (
   action: EditorActionTypes,
 ): ProjectState => {
   switch (action.type) {
-    case ADD_PROJECT:
+    case ADD_PROJECT: {
       return { ...state, loading: true };
-    case ADD_PROJECT_SUCCESS:
+    }
+    case ADD_PROJECT_SUCCESS: {
       const { newProject } = action;
-      console.log('ADD_PROJECT_SUCCESS ', newProject);
       return {
         ...state, // ...state 必须写前面才会被覆盖！！！
         projectData: newProject,
@@ -81,10 +84,11 @@ const editorReducer = (
         currentHistoryIndex: -1,
         loading: false,
       };
-    case PROJECT_FAILURE:
-      console.log('ADD_PROJECT_FAILURE ', action.error);
+    }
+    case PROJECT_FAILURE: {
       return { ...state, loading: false };
-    case ADD_PAGE:
+    }
+    case ADD_PAGE: {
       return {
         ...state,
         projectData: {
@@ -92,7 +96,8 @@ const editorReducer = (
           pages: state.projectData.pages.concat(action.newPage),
         },
       };
-    case DELETE_PAGE:
+    }
+    case DELETE_PAGE: {
       return {
         ...state,
         projectData: {
@@ -102,6 +107,7 @@ const editorReducer = (
           ),
         },
       };
+    }
     case ADD_ELEMENT: {
       const pageIndex = state.projectData.pages.findIndex(
         (p) => p.pageId === state.activePageUUID,
@@ -134,9 +140,9 @@ const editorReducer = (
           (ele) => ele.elementId === state.activeElementUUID,
         );
 
-        if (currentElement.hasOwnProperty(attrName)) {
+        if (Object.prototype.hasOwnProperty.call(currentElement, attrName)) {
           currentElement[attrName] = value;
-        } else if (currentElement.commonStyle.hasOwnProperty(attrName)) {
+        } else if (Object.prototype.hasOwnProperty.call(currentElement.commonStyle, attrName)) {
           currentElement.commonStyle[attrName] = value;
         } else {
           currentElement.propsValue[attrName] = value;
@@ -219,6 +225,16 @@ const editorReducer = (
         activeElementUUID: '',
         historyCache: [],
         currentHistoryIndex: -1,
+      };
+    }
+    case UPDATE_PROJECT_CONFIG: {
+      const { attribute, value } = action;
+      return {
+        ...state,
+        projectData: {
+          ...state.projectData,
+          [attribute]: value,
+        },
       };
     }
     default:

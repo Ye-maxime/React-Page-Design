@@ -1,11 +1,12 @@
+/* eslint-disable import/no-unresolved */
 // new 数据的模板
 import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';
-import { IBasicComponentConfig } from '../config/basicComponentConfig';
+import { IBasicComponentConfig } from '@config/basicComponentConfig';
 import {
   ICommonStyle, IElement, IPage, IProject,
-} from '../store/editor/types';
-import { createUUID } from '../common/utils';
+} from '@store/editor/types';
+import { createUUID } from '@common/utils';
 
 const dict: Record<string, any> = {
   String: '',
@@ -52,6 +53,7 @@ export const projectConfig: IProject = {
   script: '',
   width: 375,
   height: 644,
+  coverImage: '',
   pages: [],
 };
 
@@ -78,17 +80,12 @@ export const getElementConfig = (
   return config;
 };
 
-export const getPageConfig = (): IPage =>
-  //   return {
-  //     pageId: createUUID(),
-  //     name: '新页面' + Math.floor(Math.random() * 10),
-  //     elements: [],
-  //   };
-  ({
-    ...cloneDeep(pageConfig),
-    pageId: createUUID(),
-    name: `新页面${Math.floor(Math.random() * 100)}`,
-  });
+export const getPageConfig = (): IPage => ({
+  ...cloneDeep(pageConfig),
+  pageId: createUUID(),
+  name: `新页面${Math.floor(Math.random() * 100)}`,
+});
+
 export const getProjectConfig = (): IProject => {
   const project = cloneDeep(projectConfig);
   project.projectId = createUUID();

@@ -1,3 +1,6 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/no-unresolved */
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -98,11 +101,9 @@ const EditShape: React.FunctionComponent<Props> = ({
       clientHeight: editorHeight,
     } = document.getElementById('editor-pane');
 
-    width = Math.min(editorWidth - 2 * EDITOR_PADDING, width);
-    height = Math.min(editorHeight - 2 * EDITOR_PADDING, height);
     return {
-      width,
-      height,
+      width: Math.min(editorWidth - 2 * EDITOR_PADDING, width),
+      height: Math.min(editorHeight - 2 * EDITOR_PADDING, height),
     };
   };
 
@@ -250,6 +251,7 @@ const EditShape: React.FunctionComponent<Props> = ({
             className="editor-shape-point"
             key={point}
             style={getPointStyle(point)}
+            data-html2canvas-ignore="true"
             onMouseDown={(event) => handleMouseDownOnPoint(event, point)}
           />
         ))}

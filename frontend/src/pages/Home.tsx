@@ -4,9 +4,9 @@ import { Dispatch } from 'redux';
 import { Card } from 'antd';
 import { getProjectConfig } from '@dataModels/index';
 import pagecover from '@assets/images/pagecover.jpg';
-import { IProject, EditorActionTypes } from '../store/editor/types';
-import * as actions from '../store/editor/actions';
-import history from '../common/browserHistory';
+import { IProject, EditorActionTypes } from '@store/editor/types';
+import * as actions from '@store/editor/actions';
+import history from '@common/browserHistory';
 import useDataApi from '../customHooks/useDataApi';
 
 const { Meta } = Card;
@@ -51,7 +51,7 @@ const Home: React.FunctionComponent<Props> = ({ addProject }: Props) => {
               onClick={() => editProject(prj.projectId)}
               hoverable
               className="page-item"
-              cover={<img src={pagecover} className="pagecover" alt="cover page" />}
+              cover={<img src={prj.coverImage ? prj.coverImage : pagecover} className="pagecover" alt="cover page" />}
             >
               <Meta title={prj.name} />
             </Card>

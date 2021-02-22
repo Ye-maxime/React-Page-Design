@@ -42,6 +42,7 @@ export interface IProject {
   script: string;
   width: number;
   height: number;
+  coverImage: string;
   pages: IPage[];
 }
 
@@ -87,6 +88,7 @@ export const RE_DO = 'RE_DO';
 export const RESIZE_ELEMENT = 'RESIZE_ELEMENT';
 export const FETCH_PROJECT_DATA = 'FETCH_PROJECT_DATA';
 export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
+export const UPDATE_PROJECT_CONFIG = 'UPDATE_PROJECT_CONFIG';
 
 interface AddProjectAction {
   type: typeof ADD_PROJECT;
@@ -166,6 +168,12 @@ interface SetProjectDataAction {
   projectData: IProject;
 }
 
+interface UpdateProjectConfigAction {
+  type: typeof UPDATE_PROJECT_CONFIG;
+  attribute: string;
+  value: string | number;
+}
+
 // eslint-disable-next-line max-len
 export type EditorActionTypes =
   | AddProjectAction
@@ -183,4 +191,5 @@ export type EditorActionTypes =
   | RedoAction
   | ResizeElementAction
   | FetchProjectDataAction
-  | SetProjectDataAction;
+  | SetProjectDataAction
+  | UpdateProjectConfigAction;

@@ -21,6 +21,7 @@ import {
   PROJECT_FAILURE,
   FETCH_PROJECT_DATA,
   SET_PROJECT_DATA,
+  UPDATE_PROJECT_CONFIG,
 } from './types';
 
 export function addProject(newProject: IProject): EditorActionTypes {
@@ -87,7 +88,7 @@ export function setActiveElementUUID(elementId: string): EditorActionTypes {
 
 export function changeAttr(
   attrName: string,
-  value: number | string
+  value: number | string,
 ): EditorActionTypes {
   return {
     type: CHANGE_ATTR,
@@ -132,5 +133,13 @@ export function setProjectData(projectData: IProject): EditorActionTypes {
   return {
     type: SET_PROJECT_DATA,
     projectData,
+  };
+}
+
+export function updateProjectConfig(attribute: string, value: string | number): EditorActionTypes {
+  return {
+    type: UPDATE_PROJECT_CONFIG,
+    attribute,
+    value,
   };
 }

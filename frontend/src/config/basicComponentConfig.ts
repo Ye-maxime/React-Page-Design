@@ -1,4 +1,4 @@
-import { ICommonStyle, IPropsValue } from '../store/editor/types';
+import { ICommonStyle, IPropsValue } from '@store/editor/types';
 
 export interface IBasicComponentConfig {
   elementName: string;

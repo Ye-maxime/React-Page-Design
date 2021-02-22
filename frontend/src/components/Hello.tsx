@@ -2,12 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import useDataApi from '../customHooks/useDataApi';
 import {
   IProject, IPage, EditorActionTypes,
-} from '../store/editor/types';
-import * as actions from '../store/editor/actions';
-import { RootState } from '../store/index';
+} from '@store/editor/types';
+import * as actions from '@store/editor/actions';
+import { RootState } from '@store/index';
+import useDataApi from '../customHooks/useDataApi';
 
 // export interface HelloProps extends IStateProps, IDispatchProps {
 //   compiler: string; framework: string;

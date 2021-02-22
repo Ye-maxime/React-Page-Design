@@ -1,13 +1,19 @@
+/* eslint-disable max-len */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable no-shadow */
 /* eslint-disable import/no-unresolved */
 import * as React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import html2canvas from 'html2canvas';
 import { Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
 import * as actions from '@store/editor/actions';
 import { RootState } from '@store/index';
 import { EditorActionTypes, IProject } from '@store/editor/types';
 import { canUndo, canRedo } from '@selectors/index';
+import { dataURItoBlob } from '@common/utils';
 import logo from '@assets/images/logo.png';
 
 interface IStateProps {
@@ -30,11 +36,17 @@ const ControlBar: React.FunctionComponent<Props> = ({
   undo,
   redo,
 }: Props) => {
-  const saveProject = () => {
+  const saveProject = async () => {
+    const coverImage = await screenshots();
+    const updatedProjectData = {
+      ...projectData,
+      coverImage,
+    };
     axios.post(
       `http://localhost:4000/api/projects/update/${projectData.projectId}`,
-      projectData, // 不需要JSON.stringify 默认已经是application/json形式
+      updatedProjectData, // 不需要JSON.stringify 默认已经是application/json形式
     );
+
     // fetch(`http://localhost:4000/api/projects/add`, {
     //   method: 'post',
     //   body: JSON.stringify(projectData),
@@ -47,6 +59,25 @@ const ControlBar: React.FunctionComponent<Props> = ({
 
   const redoPage = () => {
     redo();
+  };
+
+  const screenshots = async () => {
+    const el: HTMLElement = document.querySelector('#canvas-panel');
+    // 将指定Html内容写入到Canvas
+    const canvas = await html2canvas(el, {
+      backgroundColor: '#000',
+    });
+    // 将Canvas转换成 base64 形式，用于提交到后台
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+    const blob = dataURItoBlob(dataUrl);
+    const imageFile = new File([blob], `${+new Date()}.png`, { type: 'image/png' });
+    const params = new FormData();
+    params.append('file', imageFile);
+    const res = await axios.post(
+      'http://localhost:4000/api/common/uploadFile',
+      params,
+    );
+    return res.data ? res.data : '';
   };
 
   console.log('render ControlBar!!!');

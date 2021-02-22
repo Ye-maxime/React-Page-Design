@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import {
   projectFailure,
   addProjectSuccess,
@@ -5,8 +6,8 @@ import {
 } from '@store/editor/actions';
 import { ADD_PROJECT, FETCH_PROJECT_DATA } from '@store/editor/types';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { createRequestOptions } from '../common/utils';
-import history from '../common/browserHistory';
+import { createRequestOptions } from '@common/utils';
+import history from '@common/browserHistory';
 
 function* addProject(action: any) {
   try {
@@ -14,7 +15,7 @@ function* addProject(action: any) {
     const res = yield call(
       fetch,
       'http://localhost:4000/api/projects/add',
-      options
+      options,
     );
     const newProject = yield res.json();
     yield put(addProjectSuccess(newProject));
@@ -30,7 +31,7 @@ function* fetchProjectData(action: any) {
     const res = yield call(
       fetch,
       `http://localhost:4000/api/projects/${action.projectId}`,
-      options
+      options,
     );
     const projectData = yield res.json();
     yield put(setProjectData(projectData));

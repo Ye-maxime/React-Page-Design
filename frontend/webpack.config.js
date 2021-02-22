@@ -18,8 +18,8 @@ module.exports = {
   },
 
   // Enable sourcemaps for debugging webpack's output.
-  devtool: 'cheap-module-eval-souce-map', // 开发模式用
-  //   devtool: 'cheap-module-souce-map', // 生产模式用 使得打包后的dist文件夹下不生成js文件的map
+  devtool: 'source-map', // 开发模式用
+  //   devtool: 'cheap-module-source-map', // 生产模式用 使得打包后的dist文件夹下不生成js文件的map
 
   resolve: {
     // 可以在 import 文件时，不用写上后缀
@@ -32,6 +32,7 @@ module.exports = {
       '@config': path.resolve(__dirname, './src/config'),
       '@dataModels': path.resolve(__dirname, './src/dataModels'),
       '@plugins': path.resolve(__dirname, './src/plugins'),
+      '@common': path.resolve(__dirname, './src/common'),
       '@assets': path.resolve(__dirname, './src/assets'),
     },
   },

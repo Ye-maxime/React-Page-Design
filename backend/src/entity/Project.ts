@@ -29,6 +29,9 @@ export default class Project {
   @Column()
   height!: number;
 
+  @Column()
+  coverImage!: string;
+
   @Column((type) => Page)
   pages: Page[] = [];
 }

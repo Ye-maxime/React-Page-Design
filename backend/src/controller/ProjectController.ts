@@ -27,7 +27,7 @@ export default class ProjectController {
   }
 
   @Post('/update/:id')
-  updatePage(@Param('id') id: string, @Body() project: Project) {
+  updateProject(@Param('id') id: string, @Body() project: Project) {
     return this.projectService.updateProject(id, project);
   }
 }
